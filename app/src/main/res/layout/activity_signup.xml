@@ -8,6 +8,21 @@
     tools:context=".SignupActivity">
 
     <EditText
+        android:id="@+id/signupUsername"
+        android:layout_width="250dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="180dp"
+        android:background="@drawable/circular_text"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
         android:id="@+id/signupEmail"
         android:layout_width="250dp"
         android:layout_height="35dp"
@@ -23,19 +38,20 @@
         app:layout_constraintTop_toBottomOf="@+id/signupUsername" />
 
     <EditText
-        android:id="@+id/signupUsername"
+        android:id="@+id/signupPhone"
         android:layout_width="250dp"
         android:layout_height="35dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/circular_text"
         android:ems="10"
-        android:hint="Username"
-        android:inputType="text"
+        android:hint="Phone number"
+        android:inputType="phone"
         android:paddingLeft="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="@+id/signupEmail"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/signupEmail"
+        app:layout_constraintTop_toBottomOf="@+id/signupEmail" />
+
 
     <EditText
         android:id="@+id/signupPassword"
@@ -52,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/signupPhone" />
 
     <EditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/signupPasswordConfirm"
         android:layout_width="250dp"
         android:layout_height="35dp"
         android:layout_marginTop="16dp"
@@ -64,6 +80,54 @@
         app:layout_constraintEnd_toEndOf="@+id/signupPassword"
         app:layout_constraintStart_toStartOf="@+id/signupPassword"
         app:layout_constraintTop_toBottomOf="@+id/signupPassword" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="256dp"
+        android:layout_height="60dp"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/signupPasswordConfirm"
+        app:layout_constraintStart_toStartOf="@+id/signupPasswordConfirm"
+        app:layout_constraintTop_toBottomOf="@+id/signupPasswordConfirm">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="מעוניין לתרום"
+            app:layout_constraintEnd_toStartOf="@+id/radioButton2"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="125dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="80dp"
+            android:text="אשמח לתרומה"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/aboutUserSignup"
+        android:layout_width="250dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/tellusaboutyourself"
+        android:ems="10"
+        android:hint="Tell us about yourself..."
+        android:inputType="text"
+        android:paddingLeft="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <EditText
         android:id="@+id/editTextText3"
@@ -101,73 +165,13 @@
         android:background="@drawable/blue_button"
         android:text="Signup"
         android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/editTextText5"
+        app:layout_constraintEnd_toEndOf="@+id/aboutUserSignup"
         app:layout_constraintHorizontal_bias="0.588"
-        app:layout_constraintStart_toStartOf="@+id/editTextText5"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText5" />
+        app:layout_constraintStart_toStartOf="@+id/aboutUserSignup"
+        app:layout_constraintTop_toBottomOf="@+id/aboutUserSignup" />
 
-    <EditText
-        android:id="@+id/editTextText5"
-        android:layout_width="250dp"
-        android:layout_height="85dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/tellusaboutyourself"
-        android:ems="10"
-        android:hint="Tell us about yourself "
-        android:inputType="text"
-        android:paddingLeft="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
-    <EditText
-        android:id="@+id/signupPhone"
-        android:layout_width="250dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/circular_text"
-        android:ems="10"
-        android:hint="Phone number"
-        android:inputType="phone"
-        android:paddingLeft="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/signupEmail"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/signupEmail"
-        app:layout_constraintTop_toBottomOf="@+id/signupEmail" />
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="256dp"
-        android:layout_height="60dp"
-        android:layout_margin="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2">
-
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="מעוניין לתרום"
-            app:layout_constraintEnd_toStartOf="@+id/radioButton2"
-            app:layout_constraintHorizontal_bias="0.8"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
-
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="125dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="80dp"
-            android:text="אשמח לתרומה"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword2" />
-
-    </RadioGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

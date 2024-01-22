@@ -15,35 +15,109 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Objects;
 
 public class SignupActivity extends AppCompatActivity {
 
     EditText username;
     EditText email;
-
     EditText phone;
     EditText password;
-    Button signup;
-
-    FirebaseAuth auth;
-
+    EditText passwordConfirm;
     RadioGroup radioGroup;
+    EditText aboutUser;
+
+    Button signupBtn;
+    FirebaseAuth auth;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        // Find all ids in xml
+        username = findViewById(R.id.signupUsername);
         email = findViewById(R.id.signupEmail);
+        phone = findViewById(R.id.signupPhone);
         password = findViewById(R.id.signupPassword);
-        signup = findViewById(R.id.buttonSignup);
-        auth = FirebaseAuth.getInstance();
+        passwordConfirm = findViewById(R.id.signupPasswordConfirm);
         radioGroup = findViewById(R.id.radioGroup);
+        aboutUser = findViewById(R.id.aboutUserSignup);
 
-        // Set the selection between wanting to donate and get donation
+        auth = FirebaseAuth.getInstance();
+        signupBtn = findViewById(R.id.buttonSignup);
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
+        // When clicking the signup button, the program authenticate the data (makes sure it is all filled it and correctly, as well as makes sure the email wasn't already used).
+        // Another important thing this function does is adding our data into real time Firebase (with all its information)
+        signupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String getUsername = username.getText().toString();
+                String getEmail = email.getText().toString();
+                String getPhone = phone.getText().toString();
+                String getPassword = password.getText().toString();
+                String getInfo = aboutUser.getText().toString();
+
+                int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+                RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
+                String getChoice = selectedRadioButton.getText().toString();
+
+                if (TextUtils.isEmpty(getEmail) || TextUtils.isEmpty(getPassword) || TextUtils.isEmpty(getUsername) || TextUtils.isEmpty(getInfo) || TextUtils.isEmpty(getPhone) || selectedRadioButtonId == -1) {
+                    Toast.makeText(SignupActivity.this, "Please fill in all fields to signup.", Toast.LENGTH_SHORT).show();
+                } else if (getPassword.length() < 8) {
+                    Toast.makeText(SignupActivity.this, "Password too short!", Toast.LENGTH_SHORT).show();
+                } else if (!getPassword.equals(passwordConfirm.getText().toString())) {
+                    Toast.makeText(SignupActivity.this, "Passwords don't match!", Toast.LENGTH_SHORT).show();
+                } else if (!isValidEmail(getEmail)) {
+                    Toast.makeText(SignupActivity.this, "Email format isn't correct, please enter a valid email", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Save information to Firebase Database
+                    HashMap<String, Object> usersMap = new HashMap<>();
+                    usersMap.put("Username", getUsername);
+                    usersMap.put("Email", getEmail);
+                    usersMap.put("Phone number", getPhone);
+                    usersMap.put("Password", getPassword);
+                    usersMap.put("Info", getInfo);
+                    usersMap.put("Choice", getChoice);
+
+                    databaseReference.child("User").child(getUsername).setValue(usersMap)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(SignupActivity.this, "Data added", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(SignupActivity.this, "Couldn't add data", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                    // Register user using Firebase Authentication
+                    registerUser(getEmail, getPassword);
+                }
+            }
+        });
+
+
+
+
+        // Set the selection between wanting to donate and receive a donation
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -53,23 +127,6 @@ public class SignupActivity extends AppCompatActivity {
         });
 
 
-        // Saves a new user into Firebase
-        signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String txt_email = email.getText().toString();
-                String txt_password = password.getText().toString();
-
-                if (TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)){
-                    Toast.makeText(SignupActivity.this, "Please fill in password and email address", Toast.LENGTH_SHORT ).show();
-                } else if (txt_password.length() < 8) {
-                    Toast.makeText(SignupActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    registerUser(txt_email, txt_password);
-                }
-            }
-        });
 
         // Directs the user to login page if has a user already
         TextView btn = findViewById(R.id.goToLoginPage);
@@ -93,5 +150,12 @@ public class SignupActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    // Function to validate email format using regex
+    private boolean isValidEmail(String email) {
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        return email.matches(emailPattern);
     }
 }

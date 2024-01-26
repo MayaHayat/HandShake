@@ -2,4 +2,14 @@
     <string name="app_name">HandShake</string>
     <string name="select">Select Item</string>
 
+    // Drop down menu for donation regions
+    <string-array name="regions">
+        <item>מחוז הצפון</item>
+        <item>מחוז חיפה</item>
+        <item>מחוז תל אביב</item>
+        <item>מחוז המרכז</item>
+        <item>מחוז ירושלים</item>
+        <item>מחוז הדרום</item>
+    </string-array>
+
 </resources>

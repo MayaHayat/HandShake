@@ -14,6 +14,9 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -22,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText email;
     Button login;
     FirebaseAuth auth;
+    String choice; // Whether we need to direct the user to donation or receiver
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,13 @@ public class LoginActivity extends AppCompatActivity {
         login = findViewById(R.id.LoginButton);
         auth = FirebaseAuth.getInstance();
 
+
+        // Access Firebase and get user ID
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+        String userID = user.getUid();
+
+        // Login the user after making sure the details match.
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,16 +64,33 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     private void loginUser(String email, String password) {
-        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this, DonorProfileActivity.class));
-                finish();
-            }
+        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
+            // Get the user's "Choice" from the Realtime Database
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("User").child(auth.getCurrentUser().getUid());
+            userRef.get().addOnSuccessListener(dataSnapshot -> {
+                if (dataSnapshot.exists()) {
+                    choice = dataSnapshot.child("Choice").getValue(String.class);
+
+                    // Redirect based on the user's "Choice"
+                    if ("אשמח לתרומה".equals(choice)) {
+                        startActivity(new Intent(LoginActivity.this, RecipientProfileActivity.class));
+                    } else if ("מעוניין לתרום".equals(choice)){
+                        startActivity(new Intent(LoginActivity.this, DonorProfileActivity.class));
+                    }
+                    else{
+                        Toast.makeText(LoginActivity.this, "Had an issue directing you to your profile.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    finish();
+                }
+            });
         });
     }
+
 
 
 

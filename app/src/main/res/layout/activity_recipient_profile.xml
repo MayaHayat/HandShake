@@ -6,4 +6,86 @@
     android:layout_height="match_parent"
     tools:context=".RecipientProfileActivity">
 
+    <Button
+        android:id="@+id/button"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="39dp"
+        android:background="@drawable/blue_button"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="צפה בתרומות שפורסמו"
+        android:textColor="#F3F4F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="49dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="23dp"
+        android:background="@drawable/blue_button"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="תרומות שמחכות לאישור"
+        android:textColor="#F3F4F4"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nameReceiver"
+        android:layout_width="164dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/circular_text"
+        android:padding="10dp"
+        android:text="Name"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewReceiver"
+        app:layout_constraintStart_toStartOf="@+id/imageViewReceiver"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewReceiver" />
+
+    <TextView
+        android:id="@+id/phoneReceiver"
+        android:layout_width="183dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/circular_text"
+        android:padding="10dp"
+        android:text="Phone Number"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/nameReceiver"
+        app:layout_constraintStart_toStartOf="@+id/nameReceiver"
+        app:layout_constraintTop_toBottomOf="@+id/nameReceiver" />
+
+    <TextView
+        android:id="@+id/infoReceiver"
+        android:layout_width="256dp"
+        android:layout_height="109dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/tellusaboutyourself"
+        android:padding="10dp"
+        android:text="Info"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/phoneReceiver"
+        app:layout_constraintStart_toStartOf="@+id/phoneReceiver"
+        app:layout_constraintTop_toBottomOf="@+id/phoneReceiver" />
+
+    <ImageView
+        android:id="@+id/imageViewReceiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="176dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 </androidx.constraintlayout.widget.ConstraintLayout>

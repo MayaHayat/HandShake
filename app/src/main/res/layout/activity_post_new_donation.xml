@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostNewDonation">
+
+
+    <!--    <Spinner-->
+<!--        android:id="@+id/spinner"-->
+<!--        android:layout_width="220dp"-->
+<!--        android:layout_height="58dp"-->
+<!--        android:layout_marginTop="52dp"-->
+<!--        android:entries="@array/regions"-->
+<!--        android:padding="10dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.497"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="בחר את סוג התרומה"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/catagoriesDonation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/furnituresDonation"
+                android:layout_width="125dp"
+                android:layout_height="50dp"
+                android:paddingRight="30dp"
+                android:text="רהיטים" />
+
+            <RadioButton
+                android:id="@+id/clothesDonation"
+                android:layout_width="125dp"
+                android:layout_height="50dp"
+                android:paddingRight="30dp"
+                android:text="בגדים" />
+
+            <RadioButton
+                android:id="@+id/foodDonation"
+                android:layout_width="125dp"
+                android:layout_height="50dp"
+                android:paddingRight="30dp"
+                android:text="מזון" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="226dp"
+        android:layout_height="89dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="106dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/editTextText2"
+        app:layout_constraintStart_toStartOf="@+id/editTextText2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText2">
+
+        <!-- Title TextView -->
+
+        <!-- Spinner -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="בחר אזור לאסיפת התרומה"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="10dp"
+            android:entries="@array/regions"
+            android:padding="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="315dp"
+        android:layout_height="143dp"
+        android:layout_marginTop="120dp"
+        android:background="@drawable/tellusaboutyourself"
+        android:ems="10"
+        android:hint="תיאור התרומה בכמה מילים"
+        android:inputType="text"
+        android:padding="20dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:hint="שם המוצר"
+        android:inputType="text"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.578"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/shareDonationButton"
+        android:layout_width="135dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/blue_button"
+        android:text="שתף תרומה"
+        android:textColor="#FEFEFE"
+        app:layout_constraintEnd_toEndOf="@+id/editTextText"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@+id/editTextText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

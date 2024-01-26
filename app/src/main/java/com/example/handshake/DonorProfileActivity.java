@@ -3,7 +3,10 @@ package com.example.handshake; // Replace with your package name
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DonorProfileActivity extends AppCompatActivity {
 
-    private TextView nameTextView, infoTextView; // Assuming you've changed EditText to TextView
+    private TextView nameTextView, infoTextView, phoneTextView;
+    Button postNewDonation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,17 @@ public class DonorProfileActivity extends AppCompatActivity {
         // Get references to TextViews
         nameTextView = findViewById(R.id.nameProfile);
         infoTextView = findViewById(R.id.aboutMeProfile);
+        phoneTextView = findViewById(R.id.phoneNumberProfile);
+        postNewDonation = findViewById(R.id.viewDonationsButton);
+
+        // post new donation -> go to relevant page
+        postNewDonation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DonorProfileActivity.this, PostNewDonation.class));
+            }
+        });
+
 
         // Access Firebase and get user ID
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -40,10 +55,12 @@ public class DonorProfileActivity extends AppCompatActivity {
                 if (snapshot.exists()) {
                     String userName = snapshot.child("Username").getValue(String.class);
                     String userInfo = snapshot.child("Info").getValue(String.class);
+                    String userNumber = snapshot.child("Phone number").getValue(String.class);
 
                     // Set retrieved data to TextViews
                     nameTextView.setText(userName);
                     infoTextView.setText(userInfo);
+                    phoneTextView.setText(userNumber);
                 } else {
                     Toast.makeText(DonorProfileActivity.this, "User data not found " + userID, Toast.LENGTH_SHORT).show();
                 }

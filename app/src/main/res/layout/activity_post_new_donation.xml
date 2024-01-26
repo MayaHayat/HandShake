@@ -7,20 +7,8 @@
     tools:context=".PostNewDonation">
 
 
-    <!--    <Spinner-->
-<!--        android:id="@+id/spinner"-->
-<!--        android:layout_width="220dp"-->
-<!--        android:layout_height="58dp"-->
-<!--        android:layout_marginTop="52dp"-->
-<!--        android:entries="@array/regions"-->
-<!--        android:padding="10dp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.497"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
-
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayoutType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -78,13 +66,11 @@
         android:layout_margin="20dp"
         android:layout_marginTop="106dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="@+id/editTextText2"
-        app:layout_constraintStart_toStartOf="@+id/editTextText2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText2">
+        app:layout_constraintEnd_toEndOf="@+id/donationName"
+        app:layout_constraintStart_toStartOf="@+id/donationName"
+        app:layout_constraintTop_toBottomOf="@+id/donationName">
 
-        <!-- Title TextView -->
 
-        <!-- Spinner -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -95,7 +81,7 @@
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/chooseLocation"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginTop="10dp"
@@ -109,10 +95,10 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/donationInfo"
         android:layout_width="315dp"
         android:layout_height="143dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/tellusaboutyourself"
         android:ems="10"
         android:hint="תיאור התרומה בכמה מילים"
@@ -121,10 +107,10 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutType" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/donationName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
@@ -134,7 +120,6 @@
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.578"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -146,10 +131,10 @@
         android:background="@drawable/blue_button"
         android:text="שתף תרומה"
         android:textColor="#FEFEFE"
-        app:layout_constraintEnd_toEndOf="@+id/editTextText"
+        app:layout_constraintEnd_toEndOf="@+id/donationInfo"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="@+id/editTextText"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+        app:layout_constraintStart_toStartOf="@+id/donationInfo"
+        app:layout_constraintTop_toBottomOf="@+id/donationInfo" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -40,7 +40,15 @@ public class SignupActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    String userID;
 
+    // Fields to store user data
+    String getUsername;
+    String getEmail;
+    String getPhone;
+    String getPassword;
+    String getInfo;
+    String getChoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +74,15 @@ public class SignupActivity extends AppCompatActivity {
         signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String getUsername = username.getText().toString();
-                String getEmail = email.getText().toString();
-                String getPhone = phone.getText().toString();
-                String getPassword = password.getText().toString();
-                String getInfo = aboutUser.getText().toString();
+                getUsername = username.getText().toString();
+                getEmail = email.getText().toString();
+                getPhone = phone.getText().toString();
+                getPassword = password.getText().toString();
+                getInfo = aboutUser.getText().toString();
 
                 int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
                 RadioButton selectedRadioButton = findViewById(selectedRadioButtonId);
-                String getChoice = selectedRadioButton.getText().toString();
+                getChoice = selectedRadioButton.getText().toString();
 
                 if (TextUtils.isEmpty(getEmail) || TextUtils.isEmpty(getPassword) || TextUtils.isEmpty(getUsername) || TextUtils.isEmpty(getInfo) || TextUtils.isEmpty(getPhone) || selectedRadioButtonId == -1) {
                     Toast.makeText(SignupActivity.this, "Please fill in all fields to signup.", Toast.LENGTH_SHORT).show();
@@ -85,37 +93,11 @@ public class SignupActivity extends AppCompatActivity {
                 } else if (!isValidEmail(getEmail)) {
                     Toast.makeText(SignupActivity.this, "Email format isn't correct, please enter a valid email", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Save information to Firebase Database
-                    HashMap<String, Object> usersMap = new HashMap<>();
-                    usersMap.put("Username", getUsername);
-                    usersMap.put("Email", getEmail);
-                    usersMap.put("Phone number", getPhone);
-                    usersMap.put("Password", getPassword);
-                    usersMap.put("Info", getInfo);
-                    usersMap.put("Choice", getChoice);
-
-                    databaseReference.child("User").child(getUsername).setValue(usersMap)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(SignupActivity.this, "Data added", Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(SignupActivity.this, "Couldn't add data", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
                     // Register user using Firebase Authentication
                     registerUser(getEmail, getPassword);
                 }
             }
         });
-
-
-
 
         // Set the selection between wanting to donate and receive a donation
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -125,8 +107,6 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Selected" + rb.getText(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
         // Directs the user to login page if has a user already
         TextView btn = findViewById(R.id.goToLoginPage);
@@ -143,19 +123,58 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-                    Toast.makeText(SignupActivity.this, "Signup was successfull", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Signup was successful", Toast.LENGTH_SHORT).show();
+                    // we ,ust first save the userID provided by the authentication
+                    userID = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+                    // so we can name the nodes of each user as its ID so we can later access it!
+                    saveUserDataToDatabase();
+                    redirectToLoginActivity();
+
                 }
-                else{
+                else {
                     Toast.makeText(SignupActivity.this, "Signup failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
+    // After authentication we must save the details into RealTime firebase
+    private void saveUserDataToDatabase() {
+        // Save information to Firebase Database
+        HashMap<String, Object> usersMap = new HashMap<>();
+        usersMap.put("Username", getUsername);
+        usersMap.put("Email", getEmail);
+        usersMap.put("Phone number", getPhone);
+        usersMap.put("Password", getPassword);
+        usersMap.put("Info", getInfo);
+        usersMap.put("Choice", getChoice);
+
+        databaseReference.child("User").child(userID).setValue(usersMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(SignupActivity.this, "Data added", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(SignupActivity.this, "Couldn't add data", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     // Function to validate email format using regex
     private boolean isValidEmail(String email) {
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         return email.matches(emailPattern);
+    }
+
+
+    // Redirect to LoginActivity
+    private void redirectToLoginActivity() {
+        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish(); // Optional: Finish the SignupActivity so the user can't navigate back to it
     }
 }

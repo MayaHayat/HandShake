@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="188dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.519"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -31,30 +30,30 @@
         android:id="@+id/nameProfile"
         android:layout_width="132dp"
         android:layout_height="51dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="72dp"
         android:text="Name"
         android:textAlignment="center"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageProfile"
-        app:layout_constraintHorizontal_bias="0.526"
-        app:layout_constraintStart_toStartOf="@+id/imageProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
     <TextView
         android:id="@+id/rateProfile"
         android:layout_width="114dp"
         android:layout_height="44dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:text="My rate"
         android:textAlignment="center"
         android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="@+id/nameProfile"
-        app:layout_constraintStart_toStartOf="@+id/nameProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameProfile" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/goToDonorRequests"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_marginTop="44dp"
@@ -63,5 +62,17 @@
         app:layout_constraintHorizontal_bias="0.377"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/aboutMeProfile"
+        android:layout_width="264dp"
+        android:layout_height="112dp"
+        android:layout_marginTop="32dp"
+        android:text="About me"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/rateProfile"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="@+id/rateProfile"
+        app:layout_constraintTop_toBottomOf="@+id/rateProfile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,15 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
 
     Context context;
     ArrayList<Donation> list;
+    OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onDonorNameClick(String username);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
 
     public adapterForDonationSearch(Context context, ArrayList<Donation> list) {
         this.context = context;
@@ -34,6 +43,19 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
         holder.donationName.setText(donation.getName());
         holder.donationInfo.setText(donation.getInfo());
         holder.donorName.setText(donation.getDonorName());
+        holder.donorInfo.setText(donation.getDonorInfo());
+        holder.donorPhone.setText(donation.getDonorPhone());
+        holder.donorRate.setText(donation.getDonorRate());
+
+        // Set a click listener for the donorName TextView
+        holder.donorName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onDonorNameClick(donation.getDonorName());
+                }
+            }
+        });
     }
 
     @Override
@@ -43,7 +65,7 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView donationName, donationInfo, donorName;
+        TextView donationName, donationInfo, donorName, donorPhone, donorInfo, donorRate;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,6 +73,10 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
             donationName = itemView.findViewById(R.id.showDonationName);
             donationInfo = itemView.findViewById(R.id.showDonationInfo);
             donorName = itemView.findViewById(R.id.showDonorName);
+            donorPhone = itemView.findViewById(R.id.showDonorPhone);
+            donorInfo = itemView.findViewById(R.id.showDonorInfo);
+            donorRate = itemView.findViewById(R.id.showDonorRate);
+
 
         }
     }

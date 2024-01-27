@@ -33,9 +33,6 @@ public class donationSearchActivity extends AppCompatActivity {
         });
 
 
-
-
-
         // DROP DOWN MENU FOR LOCATION
         ArrayAdapter<CharSequence> adaptertype = ArrayAdapter.createFromResource(
                 this,

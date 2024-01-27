@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -18,12 +19,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class viewNewDonationsActivity extends AppCompatActivity {
+public class viewNewDonationsActivity extends AppCompatActivity implements adapterForDonationSearch.OnItemClickListener{
 
     RecyclerView recyclerView;
     DatabaseReference database;
     adapterForDonationSearch myAdapter;
     ArrayList<Donation> dList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,9 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         dList = new ArrayList<>();
         myAdapter = new adapterForDonationSearch(this, dList);
         recyclerView.setAdapter(myAdapter);
+
+        // When clicking name go to donorProfileView
+        myAdapter.setOnItemClickListener(this);
 
         // Access User database and get userID
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -65,7 +70,15 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot userSnapshot) {
                                 if (userSnapshot.exists()) {
                                     String username = userSnapshot.child("Username").getValue(String.class);
+                                    String donorRate = userSnapshot.child("Rate").getValue(String.class);
+                                    String donorInfo = userSnapshot.child("Info").getValue(String.class);
+                                    String donorPhone = userSnapshot.child("Phone number").getValue(String.class);
+
                                     donation.setUsername(username);
+                                    donation.setDonorRate(donorRate);
+                                    donation.setDonorInfo(donorInfo);
+                                    donation.setDonorPhone(donorPhone);
+
 
                                     dList.add(donation);
                                     myAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
@@ -90,5 +103,13 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                 // Handle errors if needed
             }
         });
+    }
+
+    @Override
+    public void onDonorNameClick(String username) {
+        // Handle the click event, e.g., start a new activity
+        Intent intent = new Intent(this, lookAtDonorProfileActivity.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
     }
 }

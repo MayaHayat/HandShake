@@ -7,7 +7,7 @@
     tools:context=".RecipientProfileActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/viewAllDonations"
         android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_marginTop="38dp"
@@ -32,7 +32,7 @@
         android:paddingRight="10dp"
         android:text="תרומות שמחכות לאישור"
         android:textColor="#F3F4F4"
-        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/viewAllDonations"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

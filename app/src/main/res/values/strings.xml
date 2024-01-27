@@ -12,4 +12,11 @@
         <item>מחוז הדרום</item>
     </string-array>
 
+    // Drop down menu for donation type
+    <string-array name="type">
+        <item>רהיטים</item>
+        <item>מזון</item>
+        <item>בגדים</item>
+    </string-array>
+
 </resources>

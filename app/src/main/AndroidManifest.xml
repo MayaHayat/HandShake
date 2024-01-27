@@ -13,6 +13,12 @@
         android:theme="@style/Theme.HandShake"
         tools:targetApi="31">
         <activity
+            android:name=".viewNewDonationsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".donationSearchActivity"
+            android:exported="false" />
+        <activity
             android:name=".PostNewDonation"
             android:exported="false" />
         <activity

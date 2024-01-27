@@ -66,7 +66,7 @@ public class PostNewDonation extends AppCompatActivity {
             }
         });
 
-            // DROP DOWN MENU FOR LOCATION
+        // DROP DOWN MENU FOR LOCATION
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.regions,
@@ -85,24 +85,28 @@ public class PostNewDonation extends AppCompatActivity {
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                // Do nothing here
             }
         });
     }
 
     private void saveUserDataToDatabase() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+        String userID = user.getUid();
         // Save information to Firebase Database
         HashMap<String, Object> donationMap = new HashMap<>();
+        donationMap.put("UserID", userID); // Add UserID field with the user's UID
         donationMap.put("Name", getDonationName);
         donationMap.put("Info", getDonationInfo);
         donationMap.put("Catagory", getCatagory);
         donationMap.put("Location", getDonationLocation);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
-        String userID = user.getUid();
+        DatabaseReference donationsReference = FirebaseDatabase.getInstance().getReference("Donations");
 
-        databaseReference.child("Donations").child(userID).setValue(donationMap)
+        // Creating a unique key for the donation
+        String donationKey = donationsReference.push().getKey();
+
+        donationsReference.child(donationKey).setValue(donationMap)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
@@ -116,4 +120,5 @@ public class PostNewDonation extends AppCompatActivity {
                     }
                 });
     }
+
 }

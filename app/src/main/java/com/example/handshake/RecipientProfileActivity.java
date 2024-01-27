@@ -3,7 +3,10 @@ package com.example.handshake;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class RecipientProfileActivity extends AppCompatActivity {
 
     TextView name, phone, info;
+    Button gotoDonationsFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,15 @@ public class RecipientProfileActivity extends AppCompatActivity {
         name = findViewById(R.id.nameReceiver);
         phone = findViewById(R.id.phoneReceiver);
         info = findViewById(R.id.infoReceiver);
+        gotoDonationsFilter = findViewById(R.id.viewAllDonations);
+
+        // Go to donation Filters
+        gotoDonationsFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RecipientProfileActivity.this, donationSearchActivity.class));
+            }
+        });
 
         // Access Firebase and get user ID
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

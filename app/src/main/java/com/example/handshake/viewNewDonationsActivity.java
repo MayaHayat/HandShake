@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class viewNewDonationsActivity extends AppCompatActivity implements adapterForDonationSearch.OnItemClickListener{
+public class viewNewDonationsActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     DatabaseReference database;
@@ -40,14 +40,12 @@ public class viewNewDonationsActivity extends AppCompatActivity implements adapt
         myAdapter = new adapterForDonationSearch(this, dList);
         recyclerView.setAdapter(myAdapter);
 
-        // When clicking name go to donorProfileView
-        myAdapter.setOnItemClickListener(this);
-
         // Access User database and get userID
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
         String userID = user.getUid();
 
+        // use userID to get the donor's information
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -73,6 +71,7 @@ public class viewNewDonationsActivity extends AppCompatActivity implements adapt
                                     String donorRate = userSnapshot.child("Rate").getValue(String.class);
                                     String donorInfo = userSnapshot.child("Info").getValue(String.class);
                                     String donorPhone = userSnapshot.child("Phone number").getValue(String.class);
+
 
                                     donation.setUsername(username);
                                     donation.setDonorRate(donorRate);
@@ -105,11 +104,5 @@ public class viewNewDonationsActivity extends AppCompatActivity implements adapt
         });
     }
 
-    @Override
-    public void onDonorNameClick(String username) {
-        // Handle the click event, e.g., start a new activity
-        Intent intent = new Intent(this, lookAtDonorProfileActivity.class);
-        intent.putExtra("username", username);
-        startActivity(intent);
-    }
+
 }

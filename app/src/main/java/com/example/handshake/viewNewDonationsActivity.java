@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -120,30 +122,40 @@ public class viewNewDonationsActivity extends AppCompatActivity {
     private void saveDonationAndRemoveFromOriginalList(Donation donation) {
         DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");
         DatabaseReference originalDonationsRef = FirebaseDatabase.getInstance().getReference("Donations");
+        // Access Firebase and get user ID
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+        String recipientID = user.getUid();
+
+
 
         // Push the donation to "TakenDonations" and get the generated key
         String takenDonationKey = donation.getKey();
 
         // Check if the key is null (handle this case accordingly)
         if (takenDonationKey == null) {
-            // Handle the case where the key is null
             return;
         }
-
         // Set the key as the ID for the donation
         donation.setKey(takenDonationKey);
+        donation.setRecipientID(recipientID);
 
         // Save to "TakenDonations" with the generated key as the donation ID
-        takenDonationsRef.child(takenDonationKey).setValue(donation);
+        takenDonationsRef.child(takenDonationKey).setValue(donation).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(viewNewDonationsActivity.this, "Donation saved successfully", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(viewNewDonationsActivity.this, "Failed to save donation", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Remove from "Donations" using the same generated key as the donation ID
         originalDonationsRef.child(takenDonationKey).removeValue();
-//        // Save to "TakenDonations"
-//        takenDonationsRef.push().setValue(donation);
-//
-//
-//        // Remove from "Donations"
-//        originalDonationsRef.child(donation.getDonationId()).removeValue();
+
     }
 
 

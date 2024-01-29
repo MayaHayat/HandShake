@@ -3,6 +3,7 @@ package com.example.handshake;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -111,6 +112,7 @@ public class PostNewDonation extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(PostNewDonation.this, "Data added", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(PostNewDonation.this, DonorProfileActivity.class));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

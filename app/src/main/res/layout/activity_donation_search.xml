@@ -13,6 +13,9 @@
         android:layout_marginTop="144dp"
         android:entries="@array/regions"
         android:padding="10dp"
+
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,6 +29,7 @@
         android:layout_marginTop="48dp"
         android:entries="@array/type"
         android:padding="10dp"
+        android:paddingStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/donationLocationFilter">

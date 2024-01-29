@@ -87,9 +87,17 @@ public class LoginActivity extends AppCompatActivity {
 
                     finish();
                 }
+            }).addOnFailureListener(e -> {
+                // Handle failure to get user data
+                Toast.makeText(LoginActivity.this, "Failed to get user data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             });
-        });
+                })
+                .addOnFailureListener(e -> {
+                    // Handle login failure
+                    Toast.makeText(LoginActivity.this, "Login Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
+
 
 
 

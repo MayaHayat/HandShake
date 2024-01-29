@@ -21,6 +21,11 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
     ArrayList<Donation> filteredDonationsList;
     OnItemClickListener onItemClickListener;
 
+    public void setDonationList(ArrayList<Donation> filteredDonations) {
+        this.list = filteredDonations;
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClickListener {
         void onSaveDonationClick(Donation donation);
     }

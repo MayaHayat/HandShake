@@ -2,7 +2,7 @@ package com.example.handshake;
 
 // This class is used to store all relevant information for the search page
 public class Donation {
-    String donationName, donationInfo, donorID, donorName, donorPhone, donorInfo, donorRate, key, recipientID;
+    String donationName, donationInfo, Location, Type, donorID, donorName, donorPhone, donorInfo, donorRate, key, recipientID;
 
     public String getName() {
         return donationName;
@@ -46,6 +46,14 @@ public class Donation {
         return recipientID;
     }
 
+    public String getDonationLocation() {
+        return Location;
+    }
+
+    public String getDonationType() {
+        return Type;
+    }
+
     public void setKey(String key) {
         this.key = key;
     }
@@ -56,6 +64,14 @@ public class Donation {
 
     public void setInfo(String info) {
         this.donationInfo = info;
+    }
+
+    public void setLocation(String location) {
+        Location = location;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 
     public void setDonorID(String donorID){ this.donorID = donorID;
@@ -92,4 +108,5 @@ public class Donation {
     public void setRecipientID(String recipientID) {
         this.recipientID = recipientID;
     }
+
 }

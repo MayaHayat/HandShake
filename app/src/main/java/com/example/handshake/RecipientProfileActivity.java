@@ -37,7 +37,7 @@ public class RecipientProfileActivity extends AppCompatActivity {
         gotoDonationsFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RecipientProfileActivity.this, donationSearchActivity.class));
+                startActivity(new Intent(RecipientProfileActivity.this, viewNewDonationsActivity.class));
             }
         });
 

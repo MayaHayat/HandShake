@@ -21,9 +21,9 @@ public class donationSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation_search);
 
-        filterLocation = findViewById(R.id.donationLocationFilter);
-        filterType = findViewById(R.id.donationTypeFiler);
-        filterDonations = findViewById(R.id.filterDonations);
+//        filterLocation = findViewById(R.id.donationLocationFilter);
+//        filterType = findViewById(R.id.donationTypeFiler);
+//        filterDonations = findViewById(R.id.filterDonations);
 
         filterDonations.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,49 +41,49 @@ public class donationSearchActivity extends AppCompatActivity {
         });
 
 
-        // DROP DOWN MENU FOR LOCATION
-        ArrayAdapter<CharSequence> adaptertype = ArrayAdapter.createFromResource(
-                this,
-                R.array.type,
-                android.R.layout.simple_spinner_item
-        );
-        // Set a drop down menu with all donation types
-        adaptertype.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        filterType.setAdapter(adaptertype);
-
-        // Selecting a type for donation filter
-        filterType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedType = parentView.getItemAtPosition(position).toString();
-                Toast.makeText(donationSearchActivity.this, "Selected: " + selectedType, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-        });
-
-        // DROP DOWN MENU FOR LOCATION
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.regions,
-                android.R.layout.simple_spinner_item
-        );
-        // Set a drop down menu with all regions in Israel
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        filterLocation.setAdapter(adapter);
-
-        // Selecting a region for donation post
-        filterLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                String selectedRegion = parentView.getItemAtPosition(position).toString();
-                Toast.makeText(donationSearchActivity.this, "Selected: " + selectedRegion, Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parentView) {
-            }
-        });
+//        // DROP DOWN MENU FOR TYPE
+//        ArrayAdapter<CharSequence> adaptertype = ArrayAdapter.createFromResource(
+//                this,
+//                R.array.type,
+//                android.R.layout.simple_spinner_item
+//        );
+//        // Set a drop down menu with all donation types
+//        adaptertype.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        filterType.setAdapter(adaptertype);
+//
+//        // Selecting a type for donation filter
+//        filterType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+//                String selectedType = parentView.getItemAtPosition(position).toString();
+//                Toast.makeText(donationSearchActivity.this, "Selected: " + selectedType, Toast.LENGTH_SHORT).show();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parentView) {
+//            }
+//        });
+//
+//        // DROP DOWN MENU FOR LOCATION
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+//                this,
+//                R.array.regions,
+//                android.R.layout.simple_spinner_item
+//        );
+//        // Set a drop down menu with all regions in Israel
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        filterLocation.setAdapter(adapter);
+//
+//        // Selecting a region for donation post
+//        filterLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+//                String selectedRegion = parentView.getItemAtPosition(position).toString();
+//                Toast.makeText(donationSearchActivity.this, "Selected: " + selectedRegion, Toast.LENGTH_SHORT).show();
+//            }
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parentView) {
+//            }
+//        });
 
 
 

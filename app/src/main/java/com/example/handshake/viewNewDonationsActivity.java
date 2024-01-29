@@ -7,6 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,8 +34,8 @@ public class viewNewDonationsActivity extends AppCompatActivity {
     adapterForDonationSearch myAdapter;
     ArrayList<Donation> dList;
 
-    Spinner filterLocation;
-    Spinner filterType;
+    Spinner filterLocation, filterType;
+    Button filterDonations;
 
 
     @Override
@@ -46,27 +51,10 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         myAdapter = new adapterForDonationSearch(this, dList);
         recyclerView.setAdapter(myAdapter);
 
+        filterLocation = findViewById(R.id.donationLocationFilter);
+        filterType = findViewById(R.id.donationTypeFiler);
+        filterDonations = findViewById(R.id.filterDonations);
 
-//        // Retrieve selected values from the intent
-//        Intent intent = getIntent();
-//        if (intent != null) {
-//            String selectedLocation = intent.getStringExtra("LOCATION");
-//            String selectedType = intent.getStringExtra("TYPE");
-//
-//            // Use selectedLocation and selectedType to filter donations
-//            ArrayList<Donation> filteredDonations = filterDonations(selectedLocation, selectedType);
-//
-//            // Update the adapter with filtered data
-//            myAdapter.setDonationList(filteredDonations);
-//            myAdapter.notifyDataSetChanged();
-//
-//            // Check if there are no donations in the filtered category
-//            if (filteredDonations.isEmpty()) {
-//                noDonationsTextView.setVisibility(View.VISIBLE);
-//            } else {
-//                noDonationsTextView.setVisibility(View.GONE);
-//            }
-//        }
 
 
 
@@ -80,6 +68,53 @@ public class viewNewDonationsActivity extends AppCompatActivity {
             }
         });
 
+
+        // DROP DOWN MENU FOR TYPE
+        ArrayAdapter<CharSequence> adaptertype = ArrayAdapter.createFromResource(
+                this,
+                R.array.type,
+                android.R.layout.simple_spinner_item
+        );
+        // Set a drop down menu with all donation types
+        adaptertype.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterType.setAdapter(adaptertype);
+
+        // Selecting a type for donation filter
+        filterType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedType = parentView.getItemAtPosition(position).toString();
+                Toast.makeText(viewNewDonationsActivity.this, "Selected: " + selectedType, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
+        // DROP DOWN MENU FOR LOCATION
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.regions,
+                android.R.layout.simple_spinner_item
+        );
+        // Set a drop down menu with all regions in Israel
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        filterLocation.setAdapter(adapter);
+
+        // Selecting a region for donation post
+        filterLocation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedRegion = parentView.getItemAtPosition(position).toString();
+                Toast.makeText(viewNewDonationsActivity.this, "Selected: " + selectedRegion, Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
+
+
         // Access User database and get userID
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
@@ -87,58 +122,65 @@ public class viewNewDonationsActivity extends AppCompatActivity {
 
         // use userID to get the donor's information
         database.addValueEventListener(new ValueEventListener() {
+            
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     dList.clear(); // Clear the existing data before adding new data
 
+                    String selectedLocation = filterLocation.getSelectedItem().toString();
+                    String selectedType = filterType.getSelectedItem().toString();
+
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         String name = dataSnapshot.child("Name").getValue(String.class);
                         String info = dataSnapshot.child("Info").getValue(String.class);
                         String uid = dataSnapshot.child("UserID").getValue(String.class);
+                        String location = dataSnapshot.child("Location").getValue(String.class);
+                        String type = dataSnapshot.child("Type").getValue(String.class);
 
-                        // Create a new object with only the necessary fields
-                        Donation donation = new Donation();
-                        donation.setName(name);
-                        donation.setInfo(info);
-                        donation.setDonorID(uid);
-                        // Store the donation key
-                        donation.setKey(dataSnapshot.getKey());
+                            // Create a new object with only the necessary fields
+                            Donation donation = new Donation();
+                            donation.setName(name);
+                            donation.setInfo(info);
+                            donation.setDonorID(uid);
+                            donation.setLocation(location);
+                            donation.setType(type);
+                            // Store the donation key
+                            donation.setKey(dataSnapshot.getKey());
 
-                        // Retrieve "Username" from "User" database based on matching user ID
-                        reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot userSnapshot) {
-                                if (userSnapshot.exists()) {
-                                    String username = userSnapshot.child("Username").getValue(String.class);
-                                    String donorRate = userSnapshot.child("Rate").getValue(String.class);
-                                    String donorInfo = userSnapshot.child("Info").getValue(String.class);
-                                    String donorPhone = userSnapshot.child("Phone number").getValue(String.class);
+                            // Retrieve "Username" from "User" database based on matching user ID
+                            reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                                    if (userSnapshot.exists()) {
+                                        String username = userSnapshot.child("Username").getValue(String.class);
+                                        String donorRate = userSnapshot.child("Rate").getValue(String.class);
+                                        String donorInfo = userSnapshot.child("Info").getValue(String.class);
+                                        String donorPhone = userSnapshot.child("Phone number").getValue(String.class);
 
+                                        donation.setUsername(username);
+                                        donation.setDonorRate(donorRate);
+                                        donation.setDonorInfo(donorInfo);
+                                        donation.setDonorPhone(donorPhone);
 
-                                    donation.setUsername(username);
-                                    donation.setDonorRate(donorRate);
-                                    donation.setDonorInfo(donorInfo);
-                                    donation.setDonorPhone(donorPhone);
-
-
-                                    dList.add(donation);
-                                    myAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
-                                } else {
-                                    Toast.makeText(viewNewDonationsActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
+                                        dList.add(donation);
+                                        myAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
+                                    } else {
+                                        Toast.makeText(viewNewDonationsActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                // Handle errors if needed
-                            }
-                        });
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    // Handle errors if needed
+                                }
+                            });
                     }
                 } else {
                     Toast.makeText(viewNewDonationsActivity.this, "Donation data not found", Toast.LENGTH_SHORT).show();
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -146,6 +188,9 @@ public class viewNewDonationsActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 
     private void saveDonationAndRemoveFromOriginalList(Donation donation) {
         DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");

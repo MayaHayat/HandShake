@@ -33,6 +33,9 @@ public class Donation {
     public String getKey() {
         return this.key;
     }
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     public void setName(String name) {
         this.donationName = name;
@@ -61,8 +64,4 @@ public class Donation {
         this.donorRate = donorRate;
     }
 
-
-    public String getDonationId() {
-        return this.key;
-    }
 }

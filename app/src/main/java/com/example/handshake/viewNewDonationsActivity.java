@@ -72,6 +72,8 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                         donation.setName(name);
                         donation.setInfo(info);
                         donation.setDonorID(uid);
+                        // Store the donation key
+                        donation.setKey(dataSnapshot.getKey());
 
                         // Retrieve "Username" from "User" database based on matching user ID
                         reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -119,11 +121,29 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");
         DatabaseReference originalDonationsRef = FirebaseDatabase.getInstance().getReference("Donations");
 
-        // Save to "TakenDonations"
-        takenDonationsRef.push().setValue(donation);
+        // Push the donation to "TakenDonations" and get the generated key
+        String takenDonationKey = donation.getKey();
 
-        // Remove from "Donations"
-        originalDonationsRef.child(donation.getDonationId()).removeValue();
+        // Check if the key is null (handle this case accordingly)
+        if (takenDonationKey == null) {
+            // Handle the case where the key is null
+            return;
+        }
+
+        // Set the key as the ID for the donation
+        donation.setKey(takenDonationKey);
+
+        // Save to "TakenDonations" with the generated key as the donation ID
+        takenDonationsRef.child(takenDonationKey).setValue(donation);
+
+        // Remove from "Donations" using the same generated key as the donation ID
+        originalDonationsRef.child(takenDonationKey).removeValue();
+//        // Save to "TakenDonations"
+//        takenDonationsRef.push().setValue(donation);
+//
+//
+//        // Remove from "Donations"
+//        originalDonationsRef.child(donation.getDonationId()).removeValue();
     }
 
 

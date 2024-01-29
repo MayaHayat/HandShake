@@ -32,6 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        // Declare ids in xml
         email = findViewById(R.id.LoginEmail);
         password = findViewById(R.id.loginPassword);
         login = findViewById(R.id.LoginButton);

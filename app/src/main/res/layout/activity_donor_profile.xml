@@ -4,45 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/profilebackgroundjpg"
     tools:context=".DonorProfileActivity">
 
     <Button
         android:id="@+id/viewDonationsButton"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/blue_button"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="פרסם תרומה חדשה"
         android:textColor="#FEFEFE"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="188dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/nameProfile"
         android:layout_width="132dp"
         android:layout_height="51dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="228dp"
         android:background="@drawable/circular_text"
         android:text="Name"
         android:textAlignment="center"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/rateProfile"
@@ -62,14 +55,15 @@
         android:id="@+id/goToDonorRequests"
         android:layout_width="150dp"
         android:layout_height="100dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/blue_button"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="תרומות שנשמרו"
         android:textColor="#FEFEFE"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/viewDonationsButton"
-        app:layout_constraintHorizontal_bias="0.377"
+        app:layout_constraintHorizontal_bias="0.382"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgroundupsidedown"
     tools:context=".PostNewDonation">
 
 
@@ -98,7 +99,7 @@
         android:id="@+id/donationInfo"
         android:layout_width="315dp"
         android:layout_height="143dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/tellusaboutyourself"
         android:ems="10"
         android:hint="תיאור התרומה בכמה מילים"
@@ -113,13 +114,14 @@
         android:id="@+id/donationName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="148dp"
         android:ems="10"
         android:hint="שם המוצר"
         android:inputType="text"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -132,7 +134,6 @@
         android:text="שתף תרומה"
         android:textColor="#FEFEFE"
         app:layout_constraintEnd_toEndOf="@+id/donationInfo"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="@+id/donationInfo"
         app:layout_constraintTop_toBottomOf="@+id/donationInfo" />
 

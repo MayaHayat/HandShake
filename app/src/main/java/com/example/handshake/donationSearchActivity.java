@@ -23,12 +23,20 @@ public class donationSearchActivity extends AppCompatActivity {
 
         filterLocation = findViewById(R.id.donationLocationFilter);
         filterType = findViewById(R.id.donationTypeFiler);
-        filterDonations = findViewById(R.id.filterDonations);  // Corrected the button name
+        filterDonations = findViewById(R.id.filterDonations);
 
         filterDonations.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(donationSearchActivity.this, viewNewDonationsActivity.class));
+                // Get selected values from Spinners
+                String selectedLocation = filterLocation.getSelectedItem().toString();
+                String selectedType = filterType.getSelectedItem().toString();
+
+                // Pass selected values to the next activity
+                Intent intent = new Intent(donationSearchActivity.this, viewNewDonationsActivity.class);
+                intent.putExtra("LOCATION", selectedLocation);
+                intent.putExtra("TYPE", selectedType);
+                startActivity(intent);
             }
         });
 

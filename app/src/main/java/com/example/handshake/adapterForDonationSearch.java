@@ -10,12 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDonationSearch.MyViewHolder> {
 
     Context context;
     ArrayList<Donation> list;
+    ArrayList<Donation> filteredDonationsList;
     OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
@@ -29,6 +32,11 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
     public adapterForDonationSearch(Context context, ArrayList<Donation> list) {
         this.context = context;
         this.list = list;
+        this.filteredDonationsList = new ArrayList<>(list);
+    }
+
+    public void setFilteredDonationsList(ArrayList<Donation> filteredDonationsList) {
+        this.filteredDonationsList = filteredDonationsList;
     }
 
     @NonNull

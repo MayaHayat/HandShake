@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -28,6 +29,9 @@ public class viewNewDonationsActivity extends AppCompatActivity {
     adapterForDonationSearch myAdapter;
     ArrayList<Donation> dList;
 
+    Spinner filterLocation;
+    Spinner filterType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,30 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         recyclerView.setAdapter(myAdapter);
 
 
+//        // Retrieve selected values from the intent
+//        Intent intent = getIntent();
+//        if (intent != null) {
+//            String selectedLocation = intent.getStringExtra("LOCATION");
+//            String selectedType = intent.getStringExtra("TYPE");
+//
+//            // Use selectedLocation and selectedType to filter donations
+//            ArrayList<Donation> filteredDonations = filterDonations(selectedLocation, selectedType);
+//
+//            // Update the adapter with filtered data
+//            myAdapter.setDonationList(filteredDonations);
+//            myAdapter.notifyDataSetChanged();
+//
+//            // Check if there are no donations in the filtered category
+//            if (filteredDonations.isEmpty()) {
+//                noDonationsTextView.setVisibility(View.VISIBLE);
+//            } else {
+//                noDonationsTextView.setVisibility(View.GONE);
+//            }
+//        }
+
+
+
+        // Saving Donations when clicking the button
         myAdapter.setOnItemClickListener(new adapterForDonationSearch.OnItemClickListener() {
 
             @Override
@@ -127,8 +155,6 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
         String recipientID = user.getUid();
 
-
-
         // Push the donation to "TakenDonations" and get the generated key
         String takenDonationKey = donation.getKey();
 
@@ -157,7 +183,5 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         originalDonationsRef.child(takenDonationKey).removeValue();
 
     }
-
-
 
 }

@@ -40,6 +40,16 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         myAdapter = new adapterForDonationSearch(this, dList);
         recyclerView.setAdapter(myAdapter);
 
+
+        myAdapter.setOnItemClickListener(new adapterForDonationSearch.OnItemClickListener() {
+
+            @Override
+            public void onSaveDonationClick(Donation donation) {
+                // Handle Save Donation click event
+                saveDonationAndRemoveFromOriginalList(donation);
+            }
+        });
+
         // Access User database and get userID
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
@@ -61,6 +71,7 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                         Donation donation = new Donation();
                         donation.setName(name);
                         donation.setInfo(info);
+                        donation.setDonorID(uid);
 
                         // Retrieve "Username" from "User" database based on matching user ID
                         reference.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -103,6 +114,18 @@ public class viewNewDonationsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void saveDonationAndRemoveFromOriginalList(Donation donation) {
+        DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");
+        DatabaseReference originalDonationsRef = FirebaseDatabase.getInstance().getReference("Donations");
+
+        // Save to "TakenDonations"
+        takenDonationsRef.push().setValue(donation);
+
+        // Remove from "Donations"
+        originalDonationsRef.child(donation.getDonationId()).removeValue();
+    }
+
 
 
 }

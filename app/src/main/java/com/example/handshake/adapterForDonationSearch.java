@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,7 +19,7 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
     OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
-        void onDonorNameClick(String username);
+        void onSaveDonationClick(Donation donation);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -47,15 +48,18 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
         holder.donorPhone.setText(donation.getDonorPhone());
         holder.donorRate.setText(donation.getDonorRate());
 
-        // Set a click listener for the donorName TextView
-        holder.donorName.setOnClickListener(new View.OnClickListener() {
+        // Set a click listener for the "Save Donation" button
+        holder.reserveDonationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
-                    onItemClickListener.onDonorNameClick(donation.getDonorName());
+                    // Call the interface method to handle the Save Donation click
+                    onItemClickListener.onSaveDonationClick(donation);
                 }
             }
         });
+
+
     }
 
     @Override
@@ -66,6 +70,7 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView donationName, donationInfo, donorName, donorPhone, donorInfo, donorRate;
+        Button reserveDonationBtn;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +81,7 @@ public class adapterForDonationSearch extends RecyclerView.Adapter<adapterForDon
             donorPhone = itemView.findViewById(R.id.showDonorPhone);
             donorInfo = itemView.findViewById(R.id.showDonorInfo);
             donorRate = itemView.findViewById(R.id.showDonorRate);
+            reserveDonationBtn = itemView.findViewById(R.id.saveDonation);
 
 
         }

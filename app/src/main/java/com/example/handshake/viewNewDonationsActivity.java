@@ -56,8 +56,6 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         filterDonations = findViewById(R.id.filterDonations);
 
 
-
-
         // Saving Donations when clicking the button
         myAdapter.setOnItemClickListener(new adapterForDonationSearch.OnItemClickListener() {
 
@@ -113,31 +111,43 @@ public class viewNewDonationsActivity extends AppCompatActivity {
             }
         });
 
+        filterDonations.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Call the method to filter donations
+                filterDonations();
+            }
+        });
+
+    }
 
 
+    // Method to filter donations based on selected location and type
+    private void filterDonations() {
         // Access User database and get userID
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
         String userID = user.getUid();
 
-        // use userID to get the donor's information
-        database.addValueEventListener(new ValueEventListener() {
-            
+        // Get selected location and type
+        String selectedLocation = filterLocation.getSelectedItem().toString();
+        String selectedType = filterType.getSelectedItem().toString();
+
+        // Filter donations based on location and type
+        database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     dList.clear(); // Clear the existing data before adding new data
 
-                    String selectedLocation = filterLocation.getSelectedItem().toString();
-                    String selectedType = filterType.getSelectedItem().toString();
-
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         String name = dataSnapshot.child("Name").getValue(String.class);
                         String info = dataSnapshot.child("Info").getValue(String.class);
                         String uid = dataSnapshot.child("UserID").getValue(String.class);
-                        String location = dataSnapshot.child("Location").getValue(String.class);
-                        String type = dataSnapshot.child("Type").getValue(String.class);
+                        String location = dataSnapshot.child("Location").getValue().toString();
+                        String type = dataSnapshot.child("Catagory").getValue().toString();
 
+                        if (selectedLocation.equals(location) && selectedType.equals(type)) {
                             // Create a new object with only the necessary fields
                             Donation donation = new Donation();
                             donation.setName(name);
@@ -165,6 +175,7 @@ public class viewNewDonationsActivity extends AppCompatActivity {
 
                                         dList.add(donation);
                                         myAdapter.notifyDataSetChanged(); // Notify the adapter that the data has changed
+
                                     } else {
                                         Toast.makeText(viewNewDonationsActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
                                     }
@@ -175,12 +186,15 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                                     // Handle errors if needed
                                 }
                             });
+                        }
+                        else if (dList.isEmpty()){
+                            Toast.makeText(viewNewDonationsActivity.this, "No current kind of donations in this area! Can you travel anywhere else? ", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
                     Toast.makeText(viewNewDonationsActivity.this, "Donation data not found", Toast.LENGTH_SHORT).show();
                 }
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -191,7 +205,6 @@ public class viewNewDonationsActivity extends AppCompatActivity {
 
 
 
-
     private void saveDonationAndRemoveFromOriginalList(Donation donation) {
         DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");
         DatabaseReference originalDonationsRef = FirebaseDatabase.getInstance().getReference("Donations");
@@ -199,6 +212,7 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
         String recipientID = user.getUid();
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("User").child(recipientID);
 
         // Push the donation to "TakenDonations" and get the generated key
         String takenDonationKey = donation.getKey();
@@ -216,6 +230,10 @@ public class viewNewDonationsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(viewNewDonationsActivity.this, "Donation saved successfully", Toast.LENGTH_SHORT).show();
+                // Add the donation ID to the user's list of saved donations
+                DatabaseReference savedDonationsReference = userReference.child("savedDonations");
+                savedDonationsReference.child(takenDonationKey).setValue(true);
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

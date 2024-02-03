@@ -1,7 +1,7 @@
 package com.example.handshake;
 
 public class TakenDonations {
-    String donationName, donationInfo, donorName, donorPhone, donorInfo, donorRate, recName, recPhone, recInfo, DonorId, RecId ;
+    String donationName, donationInfo, donorName, donationLocation, donorPhone, donorInfo, donorRate, recName, recPhone, recInfo, DonorId, RecId ;
 
     // GETTERS ------------------------
 
@@ -49,6 +49,10 @@ public class TakenDonations {
         return RecId;
     }
 
+    public String getDonationLocation() {
+        return donationLocation;
+    }
+
     // SETTERS ------------------------
 
 
@@ -58,6 +62,10 @@ public class TakenDonations {
 
     public void setDonationInfo(String donationInfo) {
         this.donationInfo = donationInfo;
+    }
+
+    public void setDonationLocation(String donationLocation) {
+        this.donationLocation = donationLocation;
     }
 
     public void setDonorName(String donorName) {
@@ -95,4 +103,6 @@ public class TakenDonations {
     public void setRecId(String recId) {
         RecId = recId;
     }
+
+
 }

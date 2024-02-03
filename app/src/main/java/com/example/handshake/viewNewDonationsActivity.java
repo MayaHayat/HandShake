@@ -155,6 +155,7 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                             donation.setDonorID(uid);
                             donation.setLocation(location);
                             donation.setType(type);
+
                             // Store the donation key
                             donation.setKey(dataSnapshot.getKey());
 
@@ -221,26 +222,73 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         if (takenDonationKey == null) {
             return;
         }
-        // Set the key as the ID for the donation
-        donation.setKey(takenDonationKey);
-        donation.setRecipientID(recipientID);
 
-        // Save to "TakenDonations" with the generated key as the donation ID
-        takenDonationsRef.child(takenDonationKey).setValue(donation).addOnSuccessListener(new OnSuccessListener<Void>() {
+        // Get the recipientName from the User node
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(viewNewDonationsActivity.this, "Donation saved successfully", Toast.LENGTH_SHORT).show();
-                // Add the donation ID to the user's list of saved donations
-                DatabaseReference savedDonationsReference = userReference.child("savedDonations");
-                savedDonationsReference.child(takenDonationKey).setValue(true);
+            public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                if (userSnapshot.exists()) {
+                    String recipientName = userSnapshot.child("Username").getValue(String.class);
+                    String recipientPhone = userSnapshot.child("Phone number").getValue(String.class);
+                    String recipientInfo = userSnapshot.child("Info").getValue(String.class);
+                    // Update the donation object with recipientName
+                    donation.setRecipientName(recipientName);
+                    donation.setRecipientInfo(recipientInfo);
+                    donation.setRecipientPhone(recipientPhone);
 
+                    // Save to "TakenDonations" with the generated key as the donation ID
+                    takenDonationsRef.child(takenDonationKey).setValue(donation)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(viewNewDonationsActivity.this, "Donation saved successfully", Toast.LENGTH_SHORT).show();
+
+                                    // Add the donation ID to the user's list of saved donations
+                                    DatabaseReference savedDonationsReference = userReference.child("savedDonations");
+                                    savedDonationsReference.child(takenDonationKey).setValue(true);
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(viewNewDonationsActivity.this, "Failed to save donation", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                } else {
+                    Toast.makeText(viewNewDonationsActivity.this, "Recipient data not found", Toast.LENGTH_SHORT).show();
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(viewNewDonationsActivity.this, "Failed to save donation", Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle errors if needed
             }
         });
+
+
+
+
+//        // Set the key as the ID for the donation
+//        donation.setKey(takenDonationKey);
+//        donation.setRecipientID(recipientID);
+//
+//
+//        // Save to "TakenDonations" with the generated key as the donation ID
+//        takenDonationsRef.child(takenDonationKey).setValue(donation).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void unused) {
+//                Toast.makeText(viewNewDonationsActivity.this, "Donation saved successfully", Toast.LENGTH_SHORT).show();
+//                // Add the donation ID to the user's list of saved donations
+//                DatabaseReference savedDonationsReference = userReference.child("savedDonations");
+//                savedDonationsReference.child(takenDonationKey).setValue(true);
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(viewNewDonationsActivity.this, "Failed to save donation", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         // Remove from "Donations" using the same generated key as the donation ID
         originalDonationsRef.child(takenDonationKey).removeValue();

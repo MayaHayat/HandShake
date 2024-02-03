@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DonorProfileActivity extends AppCompatActivity {
 
     private TextView nameTextView, infoTextView, phoneTextView;
-    Button postNewDonation;
+    Button postNewDonation, viewTakenDonation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,7 @@ public class DonorProfileActivity extends AppCompatActivity {
         infoTextView = findViewById(R.id.aboutMeProfile);
         phoneTextView = findViewById(R.id.phoneNumberProfile);
         postNewDonation = findViewById(R.id.viewDonationsButton);
+        viewTakenDonation = findViewById(R.id.goToDonorRequests);
 
         // post new donation -> go to relevant page
         postNewDonation.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +43,14 @@ public class DonorProfileActivity extends AppCompatActivity {
             }
         });
 
+
+        // View taken donations-> go to relevant page
+        viewTakenDonation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DonorProfileActivity.this, MyPostedDonationActivity.class));
+            }
+        });
 
         // Access Firebase and get user ID
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

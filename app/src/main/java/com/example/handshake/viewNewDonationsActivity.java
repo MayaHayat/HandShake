@@ -231,10 +231,12 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                     String recipientName = userSnapshot.child("Username").getValue(String.class);
                     String recipientPhone = userSnapshot.child("Phone number").getValue(String.class);
                     String recipientInfo = userSnapshot.child("Info").getValue(String.class);
+
                     // Update the donation object with recipientName
                     donation.setRecipientName(recipientName);
                     donation.setRecipientInfo(recipientInfo);
                     donation.setRecipientPhone(recipientPhone);
+                    donation.setRecipientID(recipientID);
 
                     // Save to "TakenDonations" with the generated key as the donation ID
                     takenDonationsRef.child(takenDonationKey).setValue(donation)

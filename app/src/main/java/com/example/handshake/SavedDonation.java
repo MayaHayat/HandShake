@@ -1,7 +1,7 @@
 package com.example.handshake;
 
 public class SavedDonation {
-    String donationName, donationInfo, Location, donorName, donorPhone;
+    String donationName, donationInfo, donationLocation, donorName, donorPhone;
     String recipientID, donorID, donationID;
 
 
@@ -14,7 +14,7 @@ public class SavedDonation {
     }
 
     public String getLocation() {
-        return Location;
+        return donationLocation;
     }
 
     public String getDonorName() {
@@ -46,7 +46,7 @@ public class SavedDonation {
     }
 
     public void setLocation(String location) {
-        Location = location;
+        donationLocation = location;
     }
 
     public void setDonorName(String donorName) {

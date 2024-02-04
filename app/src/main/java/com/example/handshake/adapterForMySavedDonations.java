@@ -25,7 +25,7 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
     @Override
     public MyViewHolder2 onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context2).inflate(R.layout.mysaveddonations, parent,false);
-        return new adapterForMySavedDonations.MyViewHolder2(v);
+        return new MyViewHolder2(v);
     }
 
     @Override

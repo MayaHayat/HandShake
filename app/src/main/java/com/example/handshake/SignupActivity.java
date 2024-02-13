@@ -132,7 +132,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(SignupActivity.this, "Signup failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "This email already exists. Please login.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

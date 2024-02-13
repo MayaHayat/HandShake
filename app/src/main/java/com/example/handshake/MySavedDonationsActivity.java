@@ -45,6 +45,14 @@ public class MySavedDonationsActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
         String userID = user.getUid();
 
+        adapter.setGotOnClickListener(new adapterForMySavedDonations.OnGotDonationClickListener() {
+            @Override
+            public void OnGotDonationClick(SavedDonation donation) {
+                sendRatingAfterGettingDonation();
+            }
+        });
+
+        // Show all donations saved by the specific user
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -63,5 +71,9 @@ public class MySavedDonationsActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void sendRatingAfterGettingDonation() {
+
     }
 }

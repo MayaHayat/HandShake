@@ -45,9 +45,7 @@ public class SavedDonation {
         this.donationInfo = donationInfo;
     }
 
-    public void setLocation(String location) {
-        donationLocation = location;
-    }
+    public void setLocation(String donationLocation) {donationLocation = donationLocation;}
 
     public void setDonorName(String donorName) {
         this.donorName = donorName;

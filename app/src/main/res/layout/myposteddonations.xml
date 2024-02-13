@@ -9,7 +9,7 @@
     app:cardElevation="8dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="16dp"
         android:orientation="vertical">
@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:text="Recipient Name:"
+                android:text="Name:"
                 android:textColor="@color/black"
                 android:textSize="26dp"
                 android:textStyle="bold" />
@@ -100,7 +100,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Recepient Phone\nnumber:"
+                android:text="Number:"
                 android:textColor="@color/black"
                 android:textSize="26dp"
                 android:textStyle="bold" />
@@ -117,14 +117,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="75dp"
             android:layout_gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Recepient Info:"
+                android:text="Info:"
                 android:textColor="@color/black"
                 android:textSize="26dp"
                 android:textStyle="bold" />
@@ -145,15 +145,15 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/donationTaken"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/blue_button"
-                android:text="התרומה נמסרה"
-                android:textColor="#FEFEFE"
-                android:textSize="16sp" />
+<!--            <Button-->
+<!--                android:id="@+id/donationTaken"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="60dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@drawable/blue_button"-->
+<!--                android:text="התרומה נמסרה"-->
+<!--                android:textColor="#FEFEFE"-->
+<!--                android:textSize="16sp" />-->
 
             <Button
                 android:id="@+id/repostDonation"

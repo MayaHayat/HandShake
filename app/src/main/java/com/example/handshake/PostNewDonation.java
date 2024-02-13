@@ -101,6 +101,8 @@ public class PostNewDonation extends AppCompatActivity {
         donationMap.put("Info", getDonationInfo);
         donationMap.put("Catagory", getCatagory);
         donationMap.put("Location", getDonationLocation);
+        donationMap.put("IsTaken", "No");
+        donationMap.put("RecipientID", "None");
 
         DatabaseReference donationsReference = FirebaseDatabase.getInstance().getReference("Donations");
 

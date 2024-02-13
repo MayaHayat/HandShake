@@ -20,7 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
-    EditText LoginEmail;
     EditText password;
     EditText email;
     Button login;

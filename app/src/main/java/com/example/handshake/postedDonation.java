@@ -2,8 +2,27 @@ package com.example.handshake;
 
 public class postedDonation {
     String donationName, donationInfo, recipientName, recipientPhone, recipientInfo;
-    String recipientID, donorID, donationID;
 
+    // CHANGE DONORID TO USERID IF DOESN"T WORK!
+    String recipientID, UserID, donationID;
+    String donationLocation, donationType;
+
+
+    public String getLocation() {
+        return donationLocation;
+    }
+
+    public void setLocation(String donationLocation) {
+        donationLocation = donationLocation;
+    }
+
+    public String getDonationType() {
+        return donationType;
+    }
+
+    public void setDonationType(String donationType) {
+        this.donationType = donationType;
+    }
 
     public String getDonationName() {
         return donationName;
@@ -45,12 +64,12 @@ public class postedDonation {
         this.recipientID = recipientID;
     }
 
-    public String getDonorID() {
-        return donorID;
+    public String getUserID() {
+        return UserID;
     }
 
-    public void setDonorID(String donorID) {
-        this.donorID = donorID;
+    public void setUserID(String UserID) {
+        this.UserID = UserID;
     }
 
     public String getDonationID() {

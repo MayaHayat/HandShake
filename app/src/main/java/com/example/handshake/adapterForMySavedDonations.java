@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,10 +17,21 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
 
     Context context2;
     ArrayList<SavedDonation> savedDonationsList;
+    OnGotDonationClickListener gotOnClickListener;
+
 
     public adapterForMySavedDonations(Context context2, ArrayList<SavedDonation> savedDonationsList) {
         this.context2 = context2;
         this.savedDonationsList = savedDonationsList;
+    }
+
+    // Interface for Handling Clicks
+    public interface OnGotDonationClickListener {
+        void OnGotDonationClick(SavedDonation donation) ;
+    }
+
+    public void setGotOnClickListener(adapterForMySavedDonations.OnGotDonationClickListener listener) {
+        this.gotOnClickListener = listener;
     }
 
     @NonNull
@@ -37,6 +50,15 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
         holder.donorName.setText(donation.getDonorName());
         holder.donorPhone.setText(donation.getDonorPhone());
 
+        holder.gotDonation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (gotOnClickListener != null) {
+                    gotOnClickListener.OnGotDonationClick(donation);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -47,6 +69,8 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
     public static class MyViewHolder2 extends RecyclerView.ViewHolder{
 
         TextView donationName, donationInfo, donationLocation, donorName, donorPhone;
+        Button gotDonation;
+        RatingBar ratingBar;
 
         public MyViewHolder2(@NonNull View itemView) {
             super(itemView);
@@ -56,6 +80,9 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
             donationLocation = itemView.findViewById(R.id.savedDonationLocation);
             donorName = itemView.findViewById(R.id.savedDonorName);
             donorPhone = itemView.findViewById(R.id.savedDonorPhone);
+            ratingBar = itemView.findViewById(R.id.donationRating);
+            gotDonation = itemView.findViewById(R.id.gotDonation);
+
         }
     }
 }

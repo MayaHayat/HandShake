@@ -4,19 +4,19 @@
 
     // Drop down menu for donation regions
     <string-array name="regions">
-        <item>מחוז הצפון</item>
-        <item>מחוז חיפה</item>
-        <item>מחוז תל אביב</item>
-        <item>מחוז המרכז</item>
-        <item>מחוז ירושלים</item>
-        <item>מחוז הדרום</item>
+        <item>Northern District</item>
+        <item>Haifa District</item>
+        <item>Tel Aviv</item>
+        <item>Central District</item>
+        <item>Jerusalem</item>
+        <item>Southern district</item>
     </string-array>
 
     // Drop down menu for donation type
     <string-array name="type">
-        <item>רהיטים</item>
-        <item>מזון</item>
-        <item>בגדים</item>
+        <item>Furnitures</item>
+        <item>Food</item>
+        <item>Clothes</item>
     </string-array>
 
 </resources>

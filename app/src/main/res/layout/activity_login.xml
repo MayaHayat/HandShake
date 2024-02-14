@@ -11,14 +11,14 @@
         android:id="@+id/LoginEmail"
         android:layout_width="300dp"
         android:layout_height="45dp"
-        android:layout_marginTop="432dp"
+        android:layout_marginTop="460dp"
         android:background="@drawable/circular_text"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         android:paddingLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.531"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +26,7 @@
         android:id="@+id/loginPassword"
         android:layout_width="300dp"
         android:layout_height="45dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/circular_text"
         android:ems="10"
         android:hint="******"
@@ -50,13 +50,14 @@
         app:layout_constraintStart_toStartOf="@+id/loginPassword"
         app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
 
-    <EditText
+    <TextView
         android:id="@+id/editTextText4"
         android:layout_width="195dp"
         android:layout_height="52dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="text"
+        android:paddingTop="15dp"
         android:text="Don't have an account yet?"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/goToSignupPage"

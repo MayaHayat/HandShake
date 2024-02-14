@@ -4,25 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="16dp"
-    android:padding="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:orientation="vertical">
+        android:layout_marginLeft="1dp"
+        android:background="@drawable/itembackground"
+        android:orientation="vertical"
+        android:paddingTop="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:fontFamily="casual"
                 android:text="Donation Name:"
                 android:textColor="@color/black"
                 android:textSize="26dp"
@@ -33,6 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
+                android:fontFamily="casual"
                 android:text="Children bed"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
@@ -44,13 +49,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp">
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="20dp">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="casual"
                 android:text="Donation Info:"
                 android:textColor="@color/black"
                 android:textSize="26dp"
@@ -61,6 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
+                android:fontFamily="casual"
                 android:text="A 100*180 cm green bed with 2 drawers."
                 android:textColor="@color/black"
                 android:textSize="20dp" />
@@ -71,11 +79,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
+                android:fontFamily="casual"
                 android:text="Name:"
                 android:textColor="@color/black"
                 android:textSize="26dp"
@@ -86,6 +97,7 @@
                 android:layout_width="159dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="8dp"
+                android:fontFamily="casual"
                 android:text="None "
                 android:textColor="@color/black"
                 android:textSize="20dp" />
@@ -95,11 +107,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="casual"
                 android:text="Number:"
                 android:textColor="@color/black"
                 android:textSize="26dp"
@@ -110,6 +125,7 @@
                 android:layout_width="151dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="8dp"
+                android:fontFamily="casual"
                 android:text="05312345678"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
@@ -117,13 +133,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:fontFamily="casual"
                 android:text="Info:"
                 android:textColor="@color/black"
                 android:textSize="26dp"
@@ -134,6 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
+                android:fontFamily="casual"
                 android:text="I am a soldier at Golani."
                 android:textColor="@color/black"
                 android:textSize="20dp" />
@@ -145,25 +165,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-<!--            <Button-->
-<!--                android:id="@+id/donationTaken"-->
-<!--                android:layout_width="0dp"-->
-<!--                android:layout_height="60dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:background="@drawable/blue_button"-->
-<!--                android:text="התרומה נמסרה"-->
-<!--                android:textColor="#FEFEFE"-->
-<!--                android:textSize="16sp" />-->
-
             <Button
                 android:id="@+id/repostDonation"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/blue_button"
-                android:text="פרסם את התרומה\n מחדש"
+                android:fontFamily="casual"
+                android:text="Repost donation"
                 android:textColor="#FEFEFE"
-                android:textSize="16sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </LinearLayout>

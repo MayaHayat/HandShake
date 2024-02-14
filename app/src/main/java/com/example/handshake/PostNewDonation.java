@@ -96,13 +96,12 @@ public class PostNewDonation extends AppCompatActivity {
         String userID = user.getUid();
         // Save information to Firebase Database
         HashMap<String, Object> donationMap = new HashMap<>();
-        donationMap.put("UserID", userID); // Add UserID field with the user's UID
-        donationMap.put("Name", getDonationName);
-        donationMap.put("Info", getDonationInfo);
-        donationMap.put("Catagory", getCatagory);
-        donationMap.put("Location", getDonationLocation);
-        donationMap.put("IsTaken", "No");
-        donationMap.put("RecipientID", "None");
+        donationMap.put("userID", userID); // Add UserID field with the user's UID
+        donationMap.put("donationName", getDonationName);
+        donationMap.put("donationInfo", getDonationInfo);
+        donationMap.put("donationType", getCatagory);
+        donationMap.put("donationLocation", getDonationLocation);
+
 
         DatabaseReference donationsReference = FirebaseDatabase.getInstance().getReference("Donations");
 

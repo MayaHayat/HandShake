@@ -87,6 +87,7 @@ public class DonorProfileActivity extends AppCompatActivity {
                             if (numRatings > 0) {
                                 float averageRating = totalRating / numRatings;
                                 rateTextView.setText("My Rating: " + averageRating);
+                                reference.child(userID).child("CurrentRating").setValue(averageRating+ " ");
                             } else {
                                 rateTextView.setText("No ratings yet");
                             }

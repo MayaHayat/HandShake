@@ -25,7 +25,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class viewNewDonationsActivity extends AppCompatActivity {
 
@@ -141,11 +144,11 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                     dList.clear(); // Clear the existing data before adding new data
 
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                        String name = dataSnapshot.child("Name").getValue(String.class);
-                        String info = dataSnapshot.child("Info").getValue(String.class);
-                        String uid = dataSnapshot.child("UserID").getValue(String.class);
-                        String location = dataSnapshot.child("Location").getValue().toString();
-                        String type = dataSnapshot.child("Catagory").getValue().toString();
+                        String name = dataSnapshot.child("donationName").getValue(String.class);
+                        String info = dataSnapshot.child("donationInfo").getValue(String.class);
+                        String uid = dataSnapshot.child("userID").getValue(String.class);
+                        String location = dataSnapshot.child("donationLocation").getValue().toString();
+                        String type = dataSnapshot.child("donationType").getValue().toString();
 
                         if (selectedLocation.equals(location) && selectedType.equals(type)) {
                             // Create a new object with only the necessary fields
@@ -154,7 +157,7 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                             donation.setInfo(info);
                             donation.setUserID(uid);
                             donation.setDonationLocation(location);
-                            donation.setType(type);
+                            donation.setDonationType(type);
 
                             // Store the donation key
                             donation.setDonationID(dataSnapshot.getKey());
@@ -165,9 +168,9 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot userSnapshot) {
                                     if (userSnapshot.exists()) {
                                         String username = userSnapshot.child("Username").getValue(String.class);
-                                        String donorRate = userSnapshot.child("Rate").getValue(String.class);
                                         String donorInfo = userSnapshot.child("Info").getValue(String.class);
                                         String donorPhone = userSnapshot.child("Phone number").getValue(String.class);
+                                        String donorRate = userSnapshot.child("CurrentRating").getValue(String.class);
 
                                         donation.setUsername(username);
                                         donation.setDonorRate(donorRate);
@@ -205,7 +208,6 @@ public class viewNewDonationsActivity extends AppCompatActivity {
     }
 
 
-
     private void saveDonationAndRemoveFromOriginalList(Donation donation) {
         DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");
         DatabaseReference originalDonationsRef = FirebaseDatabase.getInstance().getReference("Donations");
@@ -218,7 +220,7 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         // Push the donation to "TakenDonations" and get the generated key
         String takenDonationKey = donation.getDonationID();
 
-        // Check if the key is null (handle this case accordingly)
+        // Check if the key is null
         if (takenDonationKey == null) {
             return;
         }
@@ -238,7 +240,6 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                     donation.setRecipientPhone(recipientPhone);
                     donation.setRecipientID(recipientID);
 
-
                     // Save to "TakenDonations" with the generated key as the donation ID
                     takenDonationsRef.child(takenDonationKey).setValue(donation)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -246,9 +247,35 @@ public class viewNewDonationsActivity extends AppCompatActivity {
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(viewNewDonationsActivity.this, "Donation saved successfully", Toast.LENGTH_SHORT).show();
 
-                                    // Add the donation ID to the user's list of saved donations
-                                    DatabaseReference savedDonationsReference = userReference.child("savedDonations");
-                                    savedDonationsReference.child(takenDonationKey).setValue(true);
+                                    // Add the donation ID to the user's list of saved donations for each category
+                                    String category = donation.getDonationType(); // Assuming this gets the category of the donation
+                                    String currentDate = getCurrentDate(); // Get the current date
+                                    DatabaseReference categoryRef = userReference.child("savedDonations").child(category);
+
+                                    // Check if a donation from this category was already saved today
+                                    categoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.exists()) {
+                                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                    String savedDate = snapshot.getKey(); // Get the saved date
+                                                    if (savedDate.equals(currentDate)) {
+                                                        // User already saved a donation from this category today
+                                                        Toast.makeText(viewNewDonationsActivity.this, "You already saved a donation from this category today", Toast.LENGTH_SHORT).show();
+                                                        return;
+                                                    }
+                                                }
+                                            }
+
+                                            // Save the donation ID under the current date
+                                            categoryRef.child(currentDate).setValue(takenDonationKey);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            // Handle errors if needed
+                                        }
+                                    });
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -269,9 +296,85 @@ public class viewNewDonationsActivity extends AppCompatActivity {
         });
 
         // Remove from "Donations" using the same generated key as the donation ID
-
         originalDonationsRef.child(takenDonationKey).removeValue();
-
     }
+
+    // Method to get the current date in a suitable format for saving in Firebase
+    private String getCurrentDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+
+
+
+//    private void saveDonationAndRemoveFromOriginalList(Donation donation) {
+//        DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");
+//        DatabaseReference originalDonationsRef = FirebaseDatabase.getInstance().getReference("Donations");
+//        // Access Firebase and get user ID
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
+//        String recipientID = user.getUid();
+//        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("User").child(recipientID);
+//
+//        // Push the donation to "TakenDonations" and get the generated key
+//        String takenDonationKey = donation.getDonationID();
+//
+//        // Check if the key is null
+//        if (takenDonationKey == null) {
+//            return;
+//        }
+//
+//        // Get the recipientName from the User node
+//        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+//                if (userSnapshot.exists()) {
+//                    String recipientName = userSnapshot.child("Username").getValue(String.class);
+//                    String recipientPhone = userSnapshot.child("Phone number").getValue(String.class);
+//                    String recipientInfo = userSnapshot.child("Info").getValue(String.class);
+//
+//                    // Update the donation object with recipientName
+//                    donation.setRecipientName(recipientName);
+//                    donation.setRecipientInfo(recipientInfo);
+//                    donation.setRecipientPhone(recipientPhone);
+//                    donation.setRecipientID(recipientID);
+//
+//
+//                    // Save to "TakenDonations" with the generated key as the donation ID
+//                    takenDonationsRef.child(takenDonationKey).setValue(donation)
+//                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void unused) {
+//                                    Toast.makeText(viewNewDonationsActivity.this, "Donation saved successfully", Toast.LENGTH_SHORT).show();
+//
+//                                    // Add the donation ID to the user's list of saved donations
+//                                    DatabaseReference savedDonationsReference = userReference.child("savedDonations");
+//                                    savedDonationsReference.child(takenDonationKey).setValue(true);
+//                                }
+//                            })
+//                            .addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    Toast.makeText(viewNewDonationsActivity.this, "Failed to save donation", Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                } else {
+//                    Toast.makeText(viewNewDonationsActivity.this, "Recipient data not found", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // Handle errors if needed
+//            }
+//        });
+//
+//        // Remove from "Donations" using the same generated key as the donation ID
+//
+//        originalDonationsRef.child(takenDonationKey).removeValue();
+//
+//    }
 
 }

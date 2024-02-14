@@ -2,18 +2,16 @@ package com.example.handshake;
 
 public class postedDonation {
     String donationName, donationInfo, recipientName, recipientPhone, recipientInfo;
-
-    // CHANGE DONORID TO USERID IF DOESN"T WORK!
     String recipientID, UserID, donationID;
     String donationLocation, donationType;
 
 
-    public String getLocation() {
+    public String getDonationLocation() {
         return donationLocation;
     }
 
-    public void setLocation(String donationLocation) {
-        donationLocation = donationLocation;
+    public void setDonationLocation(String donationLocation) {
+        this.donationLocation = donationLocation;
     }
 
     public String getDonationType() {

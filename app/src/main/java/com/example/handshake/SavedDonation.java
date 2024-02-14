@@ -1,10 +1,18 @@
 package com.example.handshake;
 
 public class SavedDonation {
-    String donationName, donationInfo, donationLocation, donorName, donorPhone;
+    String donationName, donationInfo, donationLocation, donationType, donorName, donorPhone;
     String recipientID, UserID, donationID;
     float Rating;
 
+
+    public String getDonationType() {
+        return donationType;
+    }
+
+    public void setDonationType(String donationType) {
+        this.donationType = donationType;
+    }
 
     public String getUserID() {
         return UserID;
@@ -51,9 +59,6 @@ public class SavedDonation {
         return recipientID;
     }
 
-//    public String getDonorID() {
-//        return donorID;
-//    }
 
     public String getDonationID() {
         return donationID;

@@ -39,8 +39,8 @@
 
     <TextView
         android:id="@+id/rateProfile"
-        android:layout_width="114dp"
-        android:layout_height="44dp"
+        android:layout_width="196dp"
+        android:layout_height="50dp"
         android:layout_marginTop="33dp"
         android:background="@drawable/circular_text"
         android:text="My rate"
@@ -85,7 +85,7 @@
         android:layout_height="38dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/circular_text"
-        android:text="TextView"
+        android:text="Phone number"
         android:textAlignment="center"
         android:textSize="22dp"
         app:layout_constraintEnd_toEndOf="@+id/nameProfile"

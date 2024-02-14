@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DonorProfileActivity extends AppCompatActivity {
 
-    private TextView nameTextView, infoTextView, phoneTextView;
+    TextView nameTextView, infoTextView, phoneTextView, rateTextView;
     Button postNewDonation, viewTakenDonation;
 
     @Override
@@ -32,6 +32,7 @@ public class DonorProfileActivity extends AppCompatActivity {
         nameTextView = findViewById(R.id.nameProfile);
         infoTextView = findViewById(R.id.aboutMeProfile);
         phoneTextView = findViewById(R.id.phoneNumberProfile);
+        rateTextView = findViewById(R.id.rateProfile);
         postNewDonation = findViewById(R.id.viewDonationsButton);
         viewTakenDonation = findViewById(R.id.goToDonorRequests);
 
@@ -57,7 +58,7 @@ public class DonorProfileActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
         String userID = user.getUid();
 
-        // Retrieve user data from Firebase
+
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -70,6 +71,32 @@ public class DonorProfileActivity extends AppCompatActivity {
                     nameTextView.setText(userName);
                     infoTextView.setText(userInfo);
                     phoneTextView.setText(userNumber);
+
+                    // Calculate average rating
+                    DatabaseReference ratingReference = snapshot.child("Rating").getRef();
+                    ratingReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            float totalRating = 0;
+                            int numRatings = 0;
+                            for (DataSnapshot ratingSnapshot : dataSnapshot.getChildren()) {
+                                float rating = ratingSnapshot.getValue(Float.class);
+                                totalRating += rating;
+                                numRatings++;
+                            }
+                            if (numRatings > 0) {
+                                float averageRating = totalRating / numRatings;
+                                rateTextView.setText("My Rating: " + averageRating);
+                            } else {
+                                rateTextView.setText("No ratings yet");
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(DonorProfileActivity.this, "Error calculating average rating: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } else {
                     Toast.makeText(DonorProfileActivity.this, "User data not found " + userID, Toast.LENGTH_SHORT).show();
                 }
@@ -80,5 +107,31 @@ public class DonorProfileActivity extends AppCompatActivity {
                 Toast.makeText(DonorProfileActivity.this, "Error retrieving data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
+
+
+        // Retrieve user data from Firebase
+//        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()) {
+//                    String userName = snapshot.child("Username").getValue(String.class);
+//                    String userInfo = snapshot.child("Info").getValue(String.class);
+//                    String userNumber = snapshot.child("Phone number").getValue(String.class);
+//
+//                    // Set retrieved data to TextViews
+//                    nameTextView.setText(userName);
+//                    infoTextView.setText(userInfo);
+//                    phoneTextView.setText(userNumber);
+//                } else {
+//                    Toast.makeText(DonorProfileActivity.this, "User data not found " + userID, Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(DonorProfileActivity.this, "Error retrieving data: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

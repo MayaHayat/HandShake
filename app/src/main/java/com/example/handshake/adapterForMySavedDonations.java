@@ -46,7 +46,7 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
         SavedDonation donation = savedDonationsList.get(position);
         holder.donationName.setText(donation.getDonationName());
         holder.donationInfo.setText(donation.getDonationInfo());
-        holder.donationLocation.setText(donation.getLocation());
+        holder.donationLocation.setText(donation.getDonationLocation());
         holder.donorName.setText(donation.getDonorName());
         holder.donorPhone.setText(donation.getDonorPhone());
 
@@ -54,6 +54,8 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
             @Override
             public void onClick(View v) {
                 if (gotOnClickListener != null) {
+                    float rating = holder.ratingBar.getRating();
+                    donation.setRating(rating);
                     gotOnClickListener.OnGotDonationClick(donation);
                 }
             }

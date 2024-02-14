@@ -6,7 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,7 +51,8 @@ public class MySavedDonationsActivity extends AppCompatActivity {
         adapter.setGotOnClickListener(new adapterForMySavedDonations.OnGotDonationClickListener() {
             @Override
             public void OnGotDonationClick(SavedDonation donation) {
-                sendRatingAfterGettingDonation();
+                float rating = donation.getRating();
+                sendRatingAfterGettingDonation(donation, rating);
             }
         });
 
@@ -73,7 +77,50 @@ public class MySavedDonationsActivity extends AppCompatActivity {
         });
     }
 
-    private void sendRatingAfterGettingDonation() {
 
+    // Rate donation and remove donation from DB completely
+
+    private void sendRatingAfterGettingDonation(SavedDonation donation, float rating) {
+        String donorID = donation.getUserID();
+        String donationID = donation.getDonationID();
+
+        // Check for valid rating first
+        if (rating < 0 || rating > 5) {
+            Toast.makeText(this, "Please enter a valid rating (0-5)", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Check for null values and handle gracefully
+        if (donorID == null || donationID == null) {
+            Toast.makeText(this, "Error: Missing information. Please try again.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("User").child(donorID);
+        DatabaseReference ratingRef = userRef.child("Rating").child(donationID);
+
+        // Update rating with success/error handling
+        ratingRef.setValue(rating)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(MySavedDonationsActivity.this, "Rating submitted successfully!", Toast.LENGTH_SHORT).show();
+                        // Optional actions here (disable button, update UI)
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MySavedDonationsActivity.this, "Failed to submit rating: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");
+        takenDonationsRef.child(donationID).removeValue();
     }
+
+
+
+
+
 }

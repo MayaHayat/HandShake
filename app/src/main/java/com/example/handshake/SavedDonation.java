@@ -2,8 +2,33 @@ package com.example.handshake;
 
 public class SavedDonation {
     String donationName, donationInfo, donationLocation, donorName, donorPhone;
-    String recipientID, donorID, donationID;
+    String recipientID, UserID, donationID;
+    float Rating;
 
+
+    public String getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
+
+    public String getDonationLocation() {
+        return donationLocation;
+    }
+
+    public void setDonationLocation(String donationLocation) {
+        this.donationLocation = donationLocation;
+    }
+
+    public float getRating() {
+        return Rating;
+    }
+
+    public void setRating(float rating) {
+        Rating = rating;
+    }
 
     public String getDonationName() {
         return donationName;
@@ -13,9 +38,6 @@ public class SavedDonation {
         return donationInfo;
     }
 
-    public String getLocation() {
-        return donationLocation;
-    }
 
     public String getDonorName() {
         return donorName;
@@ -29,9 +51,9 @@ public class SavedDonation {
         return recipientID;
     }
 
-    public String getDonorID() {
-        return donorID;
-    }
+//    public String getDonorID() {
+//        return donorID;
+//    }
 
     public String getDonationID() {
         return donationID;
@@ -45,8 +67,6 @@ public class SavedDonation {
         this.donationInfo = donationInfo;
     }
 
-    public void setLocation(String donationLocation) {donationLocation = donationLocation;}
-
     public void setDonorName(String donorName) {
         this.donorName = donorName;
     }
@@ -59,9 +79,9 @@ public class SavedDonation {
         this.recipientID = recipientID;
     }
 
-    public void setDonorID(String donorID) {
-        this.donorID = donorID;
-    }
+//    public void setDonorID(String donorID) {
+//        this.donorID = donorID;
+//    }
 
     public void setDonationID(String donationID) {
         this.donationID = donationID;

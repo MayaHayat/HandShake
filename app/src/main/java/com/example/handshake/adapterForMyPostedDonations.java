@@ -17,20 +17,21 @@ public class adapterForMyPostedDonations extends RecyclerView.Adapter<adapterFor
     Context context;
     ArrayList<postedDonation> mydonationsList;
 
-    OnRepostDonationClickListener repostOnClickListener;
+    OnDeleteDonationClickListener deleteOnClickListener;
 
     public adapterForMyPostedDonations(Context context, ArrayList<postedDonation> mydonationsList) {
         this.context = context;
         this.mydonationsList = mydonationsList;
+
     }
 
     // Interface for Handling Clicks
-    public interface OnRepostDonationClickListener {
-        void onRepostDonationClick(postedDonation donation) ;
+    public interface OnDeleteDonationClickListener {
+        void onDeleteDonationClick(postedDonation donation) ;
     }
 
-    public void setRepostOnClickListener(OnRepostDonationClickListener listener) {
-        this.repostOnClickListener = listener;
+    public void setRepostOnClickListener(OnDeleteDonationClickListener listener) {
+        this.deleteOnClickListener = listener;
     }
 
 
@@ -50,11 +51,11 @@ public class adapterForMyPostedDonations extends RecyclerView.Adapter<adapterFor
         holder.recipientInfo.setText(donation.getRecipientInfo());
         holder.recipientPhone.setText(donation.getRecipientPhone());
 
-        holder.repostDonation.setOnClickListener(new View.OnClickListener() {
+        holder.deleteDonation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (repostOnClickListener != null) {
-                    repostOnClickListener.onRepostDonationClick(donation);
+                if (deleteOnClickListener != null) {
+                    deleteOnClickListener.onDeleteDonationClick(donation);
                 }
             }
         });
@@ -68,7 +69,7 @@ public class adapterForMyPostedDonations extends RecyclerView.Adapter<adapterFor
     public static class MyViewHolder3 extends RecyclerView.ViewHolder{
 
         TextView donationName, donationInfo, recipientName, recipientPhone, recipientInfo;
-        Button repostDonation;
+        Button deleteDonation;
 
         public MyViewHolder3(@NonNull View itemView) {
             super(itemView);
@@ -78,7 +79,7 @@ public class adapterForMyPostedDonations extends RecyclerView.Adapter<adapterFor
             recipientName = itemView.findViewById(R.id.postedRecepientName);
             recipientPhone = itemView.findViewById(R.id.postedRecepientPhone);
             recipientInfo = itemView.findViewById(R.id.postedRecepientInfo);
-            repostDonation = itemView.findViewById(R.id.repostDonation);
+            deleteDonation = itemView.findViewById(R.id.deleteDonation);
 
 
         }

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +28,7 @@ import java.util.HashMap;
 
 public class PostNewDonation extends AppCompatActivity {
 
-    Button createDonation;
+    Button createDonation, goback;
     EditText nameDonation, infoDonation;
     RadioGroup radioGroup;
     Spinner chooseLocation;
@@ -48,11 +50,47 @@ public class PostNewDonation extends AppCompatActivity {
         infoDonation = findViewById(R.id.donationInfo);
         radioGroup = findViewById(R.id.catagoriesDonation);
         createDonation = findViewById(R.id.shareDonationButton);
+        goback = findViewById(R.id.backbtn3);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
+        // Go back button to return to profile
+        goback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PostNewDonation.this, DonorProfileActivity.class));
+            }
+        });
 
+
+        // Add a TextWatcher to the infoDonation EditText
+        infoDonation.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Check if the length of the text is more than 80 characters
+                if (s.length() > 80) {
+                    // Display a Toast indicating that the text has been truncated
+                    Toast.makeText(PostNewDonation.this, "Donation info is limited to 80 characters", Toast.LENGTH_SHORT).show();
+
+                    // Trim the text to 16 characters
+                    infoDonation.setText(s.subSequence(0, 80));
+                    infoDonation.setSelection(infoDonation.getText().length()); // Move cursor to end
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
+
+        // Create donation button
         createDonation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +126,9 @@ public class PostNewDonation extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+
+
+
     }
 
     private void saveUserDataToDatabase() {

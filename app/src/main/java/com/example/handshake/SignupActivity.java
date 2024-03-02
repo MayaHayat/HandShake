@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -114,6 +116,55 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+            }
+        });
+
+        aboutUser.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not used
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 50) {
+                    // Show a toast if the text exceeds 50 characters
+                    Toast.makeText(SignupActivity.this, "User info cannot exceed 50 characters", Toast.LENGTH_SHORT).show();
+
+
+                    // Trim the text to 50 characters
+                    aboutUser.setText(s.subSequence(0, 50));
+                    aboutUser.setSelection(aboutUser.getText().length()); // Move cursor to end
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Not used
+            }
+        });
+
+
+        username.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Not used
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 16) {
+                    // Show a toast if the text exceeds 16 characters
+                    Toast.makeText(SignupActivity.this, "Username cannot exceed 16 characters", Toast.LENGTH_SHORT).show();
+
+                    // Trim the text to 16 characters
+                    username.setText(s.subSequence(0, 16));
+                    username.setSelection(username.getText().length()); // Move cursor to end
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Not used
             }
         });
     }

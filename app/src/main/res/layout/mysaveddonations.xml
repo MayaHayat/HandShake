@@ -180,16 +180,37 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/gotDonation"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/blue_button"
-            android:fontFamily="casual"
-            android:text="Got The donation"
-            android:textColor="#FEFEFE"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/gotDonation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/blue_button"
+                android:fontFamily="casual"
+                android:text="Got donation"
+                android:textColor="#FEFEFE"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/repostDonation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/blue_button"
+                android:fontFamily="casual"
+                android:text="Repost donation"
+                android:textColor="#FEFEFE"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 

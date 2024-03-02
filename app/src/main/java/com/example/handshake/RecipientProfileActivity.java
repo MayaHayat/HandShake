@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 public class RecipientProfileActivity extends AppCompatActivity {
 
     TextView name, phone, info;
-    Button gotoDonationsFilter, goToMySavedDonations;
+    Button gotoDonationsFilter, goToMySavedDonations, logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,15 @@ public class RecipientProfileActivity extends AppCompatActivity {
         info = findViewById(R.id.infoReceiver);
         gotoDonationsFilter = findViewById(R.id.viewAllDonations);
         goToMySavedDonations = findViewById(R.id.goToMySavedDonations);
+        logout = findViewById(R.id.logoutrcpt);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RecipientProfileActivity.this, LoginActivity.class));
+            }
+        });
+
 
         // Go to donation Filters
         gotoDonationsFilter.setOnClickListener(new View.OnClickListener() {

@@ -19,13 +19,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_marginLeft="10dp"
             android:paddingBottom="5dp">
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="casual"
                 android:text="Donation Name:"
                 android:textColor="@color/black"
@@ -73,90 +73,6 @@
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:fontFamily="casual"
-                android:text="Name:"
-                android:textColor="@color/black"
-                android:textSize="26dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/postedRecepientName"
-                android:layout_width="159dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:fontFamily="casual"
-                android:text="None "
-                android:textColor="@color/black"
-                android:textSize="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="casual"
-                android:text="Number:"
-                android:textColor="@color/black"
-                android:textSize="26dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/postedRecepientPhone"
-                android:layout_width="151dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="8dp"
-                android:fontFamily="casual"
-                android:text="05312345678"
-                android:textColor="@color/black"
-                android:textSize="20dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical"
-            android:layout_marginLeft="10dp"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:fontFamily="casual"
-                android:text="Info:"
-                android:textColor="@color/black"
-                android:textSize="26dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/postedRecepientInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:fontFamily="casual"
-                android:text="I am a soldier at Golani."
-                android:textColor="@color/black"
-                android:textSize="20dp" />
         </LinearLayout>
 
 

@@ -5,7 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,9 +29,10 @@ import java.util.Map;
 public class MyPostedDonationActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, donationsDatabaseReference;
     adapterForMyPostedDonations adapter;
-    ArrayList<postedDonation> postedDonationArrayList;
+    ArrayList<postedDonation> postedDonationArrayList, nonTakenDonationArrayList;
+    Button goback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +40,16 @@ public class MyPostedDonationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_posted_donation);
 
         recyclerView = findViewById(R.id.posedDonationRecyclerView);
+        goback = findViewById(R.id.backbtn4);
+
         databaseReference = FirebaseDatabase.getInstance().getReference("TakenDonations");
+        donationsDatabaseReference = FirebaseDatabase.getInstance().getReference("Donations");
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         postedDonationArrayList = new ArrayList<>();
+
         adapter = new adapterForMyPostedDonations(this, postedDonationArrayList);
         recyclerView.setAdapter(adapter);
 
@@ -46,36 +58,121 @@ public class MyPostedDonationActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("User");
         String userID = user.getUid();
 
-
-        adapter.setRepostOnClickListener(new adapterForMyPostedDonations.OnRepostDonationClickListener() {
+        goback.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRepostDonationClick(postedDonation donation) {
-                repostDonationToFirebase(donation);
+            public void onClick(View v) {
+                startActivity(new Intent(MyPostedDonationActivity.this, DonorProfileActivity.class));
             }
         });
 
 
-        // Get all donations donor posted and were saved
+
+
+        adapter.setRepostOnClickListener(new adapterForMyPostedDonations.OnDeleteDonationClickListener() {
+            @Override
+            public void onDeleteDonationClick(postedDonation donation) {
+                //repostDonationToFirebase(donation);
+                deleteDonation(donation);
+            }
+        });
+
+
+         //Get all donations donor posted and were saved
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // Clear the list to avoid duplicate entries
+                postedDonationArrayList.clear();
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                // Get donations from "TakenDonations" database
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     postedDonation donation = dataSnapshot.getValue(postedDonation.class);
-                    if (donation.getUserID().equals(userID) ){
+                    if (donation.getUserID().equals(userID)) {
                         postedDonationArrayList.add(donation);
                     }
-
                 }
-                adapter.notifyDataSetChanged();
+
+                // Get donations from "Donations" database
+                donationsDatabaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            postedDonation donation = snapshot.getValue(postedDonation.class);
+                            // Add donation to the list if it matches the user ID
+                            if (donation.getUserID().equals(userID)) {
+                                postedDonationArrayList.add(donation);
+                            }
+                        }
+                        // Notify the adapter of the data change
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle error
+                        Toast.makeText(MyPostedDonationActivity.this, "Failed to get donations from 'Donations' database.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error
+            }
+        });
 
+
+
+    }
+
+
+    private void deleteDonation(postedDonation donation) {
+        DatabaseReference donationsRef = FirebaseDatabase.getInstance().getReference("Donations");
+        DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");
+        String originalDonationKey = donation.getDonationID();
+
+        if (originalDonationKey == null) {
+            Toast.makeText(MyPostedDonationActivity.this, "Didn't find donation", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // First, check if the donation is in "Donations" database
+        donationsRef.child(originalDonationKey).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    dataSnapshot.getRef().removeValue();
+                    Toast.makeText(MyPostedDonationActivity.this, "Donation deleted from Donations database", Toast.LENGTH_SHORT).show();
+                } else {
+                    // If not found in "Donations" database, check "TakenDonations" database
+                    takenDonationsRef.child(originalDonationKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                dataSnapshot.getRef().removeValue();
+                                Toast.makeText(MyPostedDonationActivity.this, "Donation deleted from TakenDonations database", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(MyPostedDonationActivity.this, "Donation not found", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(MyPostedDonationActivity.this, "Database error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(MyPostedDonationActivity.this, "Database error", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
+
+
 
     // Move the donation back from "TakenDonations" to "Donations" db
     private void repostDonationToFirebase(postedDonation donation) {
@@ -84,7 +181,7 @@ public class MyPostedDonationActivity extends AppCompatActivity {
 
         String originalDonationKey = donation.getDonationID();
         if (originalDonationKey == null) {
-            return;
+            Toast.makeText(MyPostedDonationActivity.this, "Donation not found", Toast.LENGTH_SHORT).show();
         }
 
         // Get the donation data from "Donations"
@@ -92,26 +189,19 @@ public class MyPostedDonationActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-
                     // Get the donation data
                     postedDonation repostedDonation = dataSnapshot.getValue(postedDonation.class);
-
                     // Add the donation to "Donations" with a new key
                     String newTakenDonationKey = takenDonationsRef.push().getKey();
-
-
                     donationsRef.child(newTakenDonationKey).setValue(donation);
 
                     // Remove the donation from "TakenDonations"
                     takenDonationsRef.child(originalDonationKey).removeValue();
-
-
                     // Show a Toast indicating success
-                    Toast.makeText(MyPostedDonationActivity.this, "Donation reposted successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyPostedDonationActivity.this, "Donation Deleted successfully", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(MyPostedDonationActivity.this, "Couldn't find data", Toast.LENGTH_SHORT).show();
-
                 }
             }
 

@@ -18,6 +18,17 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
     Context context2;
     ArrayList<SavedDonation> savedDonationsList;
     OnGotDonationClickListener gotOnClickListener;
+    OnRepostDonationClickListener repostOnClickListener;
+
+
+    public interface OnRepostDonationClickListener {
+        void OnRepostDonationClick(SavedDonation donation);
+    }
+
+
+    public void setRepostOnClickListener(OnRepostDonationClickListener listener) {
+        this.repostOnClickListener = listener;
+    }
 
 
     public adapterForMySavedDonations(Context context2, ArrayList<SavedDonation> savedDonationsList) {
@@ -61,6 +72,15 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
             }
         });
 
+        holder.repostDonation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (gotOnClickListener != null) {
+                    repostOnClickListener.OnRepostDonationClick(donation);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -71,7 +91,7 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
     public static class MyViewHolder2 extends RecyclerView.ViewHolder{
 
         TextView donationName, donationInfo, donationLocation, donorName, donorPhone;
-        Button gotDonation;
+        Button gotDonation, repostDonation;
         RatingBar ratingBar;
 
         public MyViewHolder2(@NonNull View itemView) {
@@ -84,6 +104,7 @@ public class adapterForMySavedDonations extends RecyclerView.Adapter<adapterForM
             donorPhone = itemView.findViewById(R.id.savedDonorPhone);
             ratingBar = itemView.findViewById(R.id.donationRating);
             gotDonation = itemView.findViewById(R.id.gotDonation);
+            repostDonation = itemView.findViewById(R.id.repostDonation);
 
         }
     }

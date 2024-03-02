@@ -123,7 +123,7 @@
         android:ems="10"
         android:fontFamily="casual"
         android:hint="Describe your donation in a\n few words..."
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:padding="20dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -161,6 +161,23 @@
         app:layout_constraintEnd_toEndOf="@+id/donationInfo"
         app:layout_constraintStart_toStartOf="@+id/donationInfo"
         app:layout_constraintTop_toBottomOf="@+id/donationInfo" />
+
+    <Button
+        android:id="@+id/backbtn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="307dp"
+        android:background="#0C296B"
+        android:fontFamily="casual"
+        android:text="back"
+        android:textColor="#FEFEFE"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

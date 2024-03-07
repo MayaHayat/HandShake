@@ -100,6 +100,7 @@ public class MyPostedDonationActivity extends AppCompatActivity {
                             postedDonation donation = snapshot.getValue(postedDonation.class);
                             // Add donation to the list if it matches the user ID
                             if (donation.getUserID().equals(userID)) {
+                                donation.setDonationID(snapshot.getKey());
                                 postedDonationArrayList.add(donation);
                             }
                         }
@@ -131,7 +132,7 @@ public class MyPostedDonationActivity extends AppCompatActivity {
         DatabaseReference takenDonationsRef = FirebaseDatabase.getInstance().getReference("TakenDonations");
         String originalDonationKey = donation.getDonationID();
 
-        if (originalDonationKey == null) {
+        if (originalDonationKey == null ) {
             Toast.makeText(MyPostedDonationActivity.this, "Didn't find donation", Toast.LENGTH_SHORT).show();
             return;
         }
